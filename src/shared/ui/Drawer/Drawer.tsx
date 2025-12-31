@@ -1,5 +1,6 @@
 'use client'
 
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import type { ComponentProps } from 'react'
 import { Drawer as VaulDrawer } from 'vaul'
 import { cn } from '@/shared/lib'
@@ -40,8 +41,9 @@ function DrawerOverlay({
 function DrawerContent({
   children,
   className,
+  title = 'メニュー',
   ...props
-}: ComponentProps<typeof VaulDrawer.Content>) {
+}: ComponentProps<typeof VaulDrawer.Content> & { title?: string }) {
   return (
     <DrawerPortal>
       <DrawerOverlay />
@@ -52,6 +54,9 @@ function DrawerContent({
         )}
         {...props}
       >
+        <VisuallyHidden>
+          <VaulDrawer.Title>{title}</VaulDrawer.Title>
+        </VisuallyHidden>
         {children}
       </VaulDrawer.Content>
     </DrawerPortal>

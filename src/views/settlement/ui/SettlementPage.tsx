@@ -9,7 +9,7 @@ export function SettlementPage() {
   return (
     <div className="mx-auto min-h-screen max-w-lg bg-background px-4 py-6">
       <header className="mb-6">
-        <div className="mb-4 flex justify-center">
+        <div className="mb-4 hidden justify-center lg:flex">
           <Link href="/">
             <AppLogo size="sm" />
           </Link>

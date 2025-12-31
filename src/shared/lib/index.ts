@@ -12,4 +12,5 @@ export {
   calculateTotalAmount,
 } from './settlement'
 export { disabledStyles, focusRingStyles, transitionStyles } from './styles'
+export { useIsDesktop, useMediaQuery } from './useMediaQuery'
 export { useSidebar } from './useSidebar'

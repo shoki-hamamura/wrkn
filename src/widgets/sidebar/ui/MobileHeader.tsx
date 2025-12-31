@@ -1,6 +1,7 @@
 'use client'
 
 import { Menu } from 'lucide-react'
+import Link from 'next/link'
 import { cn, useSidebar } from '@/shared/lib'
 import { AppLogo, Button } from '@/shared/ui'
 
@@ -28,7 +29,9 @@ export function MobileHeader({ className }: MobileHeaderProps) {
         >
           <Menu className="size-5" />
         </Button>
-        <AppLogo size="sm" />
+        <Link href="/">
+          <AppLogo size="sm" />
+        </Link>
         <div className="size-10" />
       </nav>
     </header>
