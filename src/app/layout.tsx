@@ -9,7 +9,7 @@ import './globals.css'
 const notoSansJP = Noto_Sans_JP({
   variable: '--font-noto-sans-jp',
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700', '900'],
   display: 'swap',
 })
 
@@ -32,8 +32,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#faf9f7' },
     { media: '(prefers-color-scheme: dark)', color: '#0f0f0f' },

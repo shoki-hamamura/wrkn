@@ -121,4 +121,5 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-noto-sans-jp), "Noto Sans JP", system-ui, sans-serif;
+  touch-action: manipulation;
 }
