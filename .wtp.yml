@@ -1,0 +1,4 @@
+hooks:
+  post_add:
+    - pnpm install
+    - cp -n ../.env.local .env.local 2>/dev/null || true
