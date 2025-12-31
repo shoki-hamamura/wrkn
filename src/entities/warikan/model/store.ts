@@ -356,7 +356,13 @@ export const useWarikanStore = create<WarikanStore>()(
             updateCurrentSession(state, (session) => {
               const expense = session.expenses.find((e) => e.id === id)
               if (expense) {
-                Object.assign(expense, updates)
+                if (updates.name !== undefined) expense.name = updates.name
+                if (updates.amount !== undefined)
+                  expense.amount = updates.amount
+                if (updates.paidBy !== undefined)
+                  expense.paidBy = updates.paidBy
+                if (updates.participants !== undefined)
+                  expense.participants = updates.participants
               }
             })
           }),
