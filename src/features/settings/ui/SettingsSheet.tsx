@@ -1,5 +1,7 @@
 'use client'
 
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { CURRENCIES } from '@/shared/constants'
 import type { CurrencyCode, RoundingUnit } from '@/shared/types'
 import { Button, RadioGroup, Sheet } from '@/shared/ui'
@@ -21,10 +23,22 @@ const roundingOptions: { value: string; label: string }[] = [
   { value: '100', label: '100円' },
 ]
 
+const themeOptions: { value: string; label: string }[] = [
+  { value: 'system', label: 'システム設定' },
+  { value: 'light', label: 'ライト' },
+  { value: 'dark', label: 'ダーク' },
+]
+
 export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
   const currency = useCurrency()
   const roundingUnit = useRoundingUnit()
   const { setCurrency, setRoundingUnit, reset } = useWarikanActions()
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleReset = () => {
     if (window.confirm('すべてのデータをリセットしますか？')) {
@@ -41,6 +55,22 @@ export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
         </Sheet.Header>
 
         <div className="space-y-6">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+              テーマ
+            </label>
+            {mounted ? (
+              <RadioGroup
+                name="theme"
+                value={theme ?? 'system'}
+                options={themeOptions}
+                onChange={(value) => setTheme(value)}
+              />
+            ) : (
+              <div className="h-6" />
+            )}
+          </div>
+
           <div>
             <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
               通貨
