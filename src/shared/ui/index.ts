@@ -24,3 +24,6 @@ export type { SheetProps } from './Sheet'
 
 export { Slider } from './Slider'
 export type { SliderProps } from './Slider'
+
+export { Switch } from './Switch'
+export type { SwitchProps } from './Switch'
