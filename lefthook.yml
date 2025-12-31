@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    gitleaks:
+      run: gitleaks protect --staged --no-banner
+    biome:
+      glob: "*.{ts,tsx,js,jsx,json}"
+      run: npx ultracite check {staged_files}
+    types:
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+
+pre-push:
+  commands:
+    test:
+      run: pnpm test:run
