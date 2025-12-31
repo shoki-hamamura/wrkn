@@ -1,0 +1,37 @@
+import { formatAmount } from '@/shared/lib'
+import type { CurrencyCode } from '@/shared/types'
+import type { Member } from '@/entities/member'
+import type { Settlement } from '@/entities/settlement'
+
+export interface FormatResultTextInput {
+  settlements: Settlement[]
+  members: Member[]
+  currency: CurrencyCode
+  totalAmount: number
+}
+
+export function formatResultText({
+  settlements,
+  members,
+  currency,
+  totalAmount,
+}: FormatResultTextInput): string {
+  const lines: string[] = []
+
+  lines.push('【なかよしわりかん】')
+  lines.push(`合計: ${formatAmount(totalAmount, currency)}`)
+  lines.push('')
+
+  if (settlements.length > 0) {
+    lines.push('💸 支払い')
+    for (const settlement of settlements) {
+      const from = members.find((m) => m.id === settlement.from)
+      const to = members.find((m) => m.id === settlement.to)
+      lines.push(`・${from?.name ?? '不明'} → ${to?.name ?? '不明'}: ${formatAmount(settlement.amount, currency)}`)
+    }
+  } else {
+    lines.push('精算は不要です')
+  }
+
+  return lines.join('\n')
+}
