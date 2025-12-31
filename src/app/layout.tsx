@@ -1,3 +1,5 @@
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist_Mono, Noto_Sans_JP } from 'next/font/google'
 import { AppLayout } from './AppLayout'
@@ -51,6 +53,8 @@ export default function RootLayout({
         <Providers>
           <AppLayout>{children}</AppLayout>
         </Providers>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
