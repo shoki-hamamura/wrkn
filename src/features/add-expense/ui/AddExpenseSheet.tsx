@@ -2,7 +2,12 @@
 
 import { useState } from 'react'
 import type { Expense } from '@/entities/expense'
-import { useCurrency, useMembers, useWarikanActions } from '@/entities/warikan'
+import {
+  useCurrency,
+  useHasGroups,
+  useMembers,
+  useWarikanActions,
+} from '@/entities/warikan'
 import { formatAmount } from '@/shared/lib'
 import type { MemberId } from '@/shared/types'
 import { Button, Checkbox, Input, RadioGroup, Sheet } from '@/shared/ui'
@@ -40,6 +45,7 @@ interface AddExpenseFormProps {
 
 function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
   const members = useMembers()
+  const hasGroups = useHasGroups()
   const currency = useCurrency()
   const { addExpense, updateExpense } = useWarikanActions()
 
@@ -145,7 +151,7 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
           </div>
         )}
 
-        {members.length > 1 && (
+        {members.length > 1 && !hasGroups && (
           <div>
             <span className="mb-2 block text-sm font-medium text-foreground-muted">
               参加者
@@ -169,6 +175,17 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {hasGroups && (
+          <div>
+            <span className="mb-2 block text-sm font-medium text-foreground-muted">
+              参加者
+            </span>
+            <p className="text-sm text-foreground-muted">
+              グループが設定されているため、全員参加となります
+            </p>
           </div>
         )}
 

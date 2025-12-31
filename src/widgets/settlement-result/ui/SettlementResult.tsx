@@ -3,6 +3,7 @@
 import { SettlementItem } from '@/entities/settlement'
 import {
   useCurrency,
+  useGroups,
   useMembers,
   useSettlements,
   useTotalAmount,
@@ -16,12 +17,14 @@ export interface SettlementResultProps {
 
 export function SettlementResult({ className }: SettlementResultProps) {
   const members = useMembers()
+  const groups = useGroups()
   const currency = useCurrency()
-  const settlements = useSettlements()
+  const { settlements, groupSettlements } = useSettlements()
   const totalAmount = useTotalAmount()
 
   const resultText = formatResultText({
     settlements,
+    groupSettlements,
     members,
     currency,
     totalAmount,
@@ -44,13 +47,36 @@ export function SettlementResult({ className }: SettlementResultProps) {
         <p className="text-3xl font-bold text-foreground">
           {formatAmount(totalAmount, currency)}
         </p>
-        {members.length > 0 && (
+        {groups.length === 0 && members.length > 0 && (
           <p className="text-sm text-foreground-muted">
             1人あたり約{' '}
             {formatAmount(Math.round(totalAmount / members.length), currency)}
           </p>
         )}
       </div>
+
+      {groupSettlements.length > 0 && (
+        <>
+          <h3 className="mb-3 text-sm font-medium text-foreground-muted">
+            グループ別 1人あたり
+          </h3>
+          <div className="mb-6 space-y-2">
+            {groupSettlements.map((gs) => (
+              <div
+                key={gs.groupId}
+                className="flex items-center justify-between rounded-lg border border-border bg-surface p-3"
+              >
+                <span className="text-sm font-medium text-foreground">
+                  {gs.groupName}
+                </span>
+                <span className="font-bold text-foreground">
+                  {formatAmount(gs.perPersonAmount, currency)}/人
+                </span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       {settlements.length > 0 ? (
         <>

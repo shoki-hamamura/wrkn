@@ -1,7 +1,10 @@
 export { cn } from './cn'
 export { formatAmount, parseAmount } from './currency'
 export { ceilToUnit, floorToUnit, roundToUnit } from './rounding'
-export type { CalculateSettlementsInput } from './settlement'
+export type {
+  CalculateSettlementsInput,
+  CalculateSettlementsResult,
+} from './settlement'
 export {
   calculateAverageAmount,
   calculateSettlements,

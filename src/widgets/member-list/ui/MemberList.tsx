@@ -16,7 +16,7 @@ export function MemberList({ className }: MemberListProps) {
   return (
     <div className={className}>
       <h2 className="mb-3 text-sm font-medium text-foreground-muted">
-        メンバー
+        メンバー（立替者）
       </h2>
       <div className="flex flex-wrap items-center gap-2">
         {members.map((member) => (

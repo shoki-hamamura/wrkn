@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import type { Expense, ExpenseId, Member, MemberId } from '@/shared/types'
+import type {
+  Expense,
+  ExpenseId,
+  GroupId,
+  Member,
+  MemberId,
+  ParticipantGroup,
+} from '@/shared/types'
 import {
   calculateAverageAmount,
   calculateSettlements,
@@ -30,19 +37,21 @@ describe('calculateSettlements', () => {
   it('returns empty array when no members', () => {
     const result = calculateSettlements({
       members: [],
+      groups: [],
       expenses: [createExpense('Test', 1000, 'm1')],
       roundingUnit: 1,
     })
-    expect(result).toEqual([])
+    expect(result.settlements).toEqual([])
   })
 
   it('returns empty array when no expenses', () => {
     const result = calculateSettlements({
       members: [createMember('m1', '太郎')],
+      groups: [],
       expenses: [],
       roundingUnit: 1,
     })
-    expect(result).toEqual([])
+    expect(result.settlements).toEqual([])
   })
 
   it('calculates correct settlement for 2 people equal split', () => {
@@ -51,12 +60,13 @@ describe('calculateSettlements', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result).toHaveLength(1)
-    expect(result[0]).toEqual({
+    expect(result.settlements).toHaveLength(1)
+    expect(result.settlements[0]).toEqual({
       from: 'm2',
       to: 'm1',
       amount: 1000,
@@ -73,14 +83,15 @@ describe('calculateSettlements', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result).toHaveLength(2)
+    expect(result.settlements).toHaveLength(2)
 
-    const fromM2 = result.find((s) => s.from === 'm2')
-    const fromM3 = result.find((s) => s.from === 'm3')
+    const fromM2 = result.settlements.find((s) => s.from === 'm2')
+    const fromM3 = result.settlements.find((s) => s.from === 'm3')
 
     expect(fromM2).toBeDefined()
     expect(fromM3).toBeDefined()
@@ -97,11 +108,12 @@ describe('calculateSettlements', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result).toHaveLength(0)
+    expect(result.settlements).toHaveLength(0)
   })
 
   it('considers bias when calculating shares', () => {
@@ -113,12 +125,13 @@ describe('calculateSettlements', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result).toHaveLength(1)
-    expect(result[0]).toEqual({
+    expect(result.settlements).toHaveLength(1)
+    expect(result.settlements[0]).toEqual({
       from: 'm2',
       to: 'm1',
       amount: 2000,
@@ -135,12 +148,13 @@ describe('calculateSettlements', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result).toHaveLength(1)
-    expect(result[0]).toEqual({
+    expect(result.settlements).toHaveLength(1)
+    expect(result.settlements[0]).toEqual({
       from: 'm2',
       to: 'm1',
       amount: 1000,
@@ -157,11 +171,12 @@ describe('calculateSettlements', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 10,
     })
 
-    result.forEach((settlement) => {
+    result.settlements.forEach((settlement) => {
       expect(settlement.amount % 10).toBe(0)
     })
   })
@@ -176,11 +191,12 @@ describe('calculateSettlements', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 100,
     })
 
-    result.forEach((settlement) => {
+    result.settlements.forEach((settlement) => {
       expect(settlement.amount % 100).toBe(0)
     })
   })
@@ -198,13 +214,14 @@ describe('calculateSettlements', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 10,
     })
 
-    expect(result.length).toBeGreaterThan(0)
+    expect(result.settlements.length).toBeGreaterThan(0)
 
-    result.forEach((settlement) => {
+    result.settlements.forEach((settlement) => {
       expect(settlement.amount % 10).toBe(0)
       expect(settlement.amount).toBeGreaterThan(0)
     })
@@ -247,12 +264,16 @@ describe('large scale calculations', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result.length).toBeLessThanOrEqual(49)
-    const totalSettled = result.reduce((sum, s) => sum + s.amount, 0)
+    expect(result.settlements.length).toBeLessThanOrEqual(49)
+    const totalSettled = result.settlements.reduce(
+      (sum, s) => sum + s.amount,
+      0,
+    )
     expect(totalSettled).toBeGreaterThan(0)
   })
 
@@ -264,11 +285,12 @@ describe('large scale calculations', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result.length).toBeLessThanOrEqual(1)
+    expect(result.settlements.length).toBeLessThanOrEqual(1)
   })
 
   it('handles 50 members with 50 expenses', () => {
@@ -281,11 +303,12 @@ describe('large scale calculations', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 10,
     })
 
-    result.forEach((settlement) => {
+    result.settlements.forEach((settlement) => {
       expect(settlement.amount % 10).toBe(0)
     })
   })
@@ -302,11 +325,12 @@ describe('floating point precision', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    result.forEach((settlement) => {
+    result.settlements.forEach((settlement) => {
       expect(Number.isInteger(settlement.amount)).toBe(true)
       expect(Number.isFinite(settlement.amount)).toBe(true)
     })
@@ -321,11 +345,14 @@ describe('floating point precision', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result.every((s) => Number.isFinite(s.amount))).toBe(true)
+    expect(result.settlements.every((s) => Number.isFinite(s.amount))).toBe(
+      true,
+    )
   })
 
   it('produces consistent results across multiple calculations', () => {
@@ -340,10 +367,11 @@ describe('floating point precision', () => {
     for (let i = 0; i < 10; i++) {
       const result = calculateSettlements({
         members,
+        groups: [],
         expenses,
         roundingUnit: 1,
       })
-      results.push(result.reduce((sum, s) => sum + s.amount, 0))
+      results.push(result.settlements.reduce((sum, s) => sum + s.amount, 0))
     }
 
     expect(new Set(results).size).toBe(1)
@@ -355,13 +383,14 @@ describe('floating point precision', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result).toHaveLength(1)
-    expect(result[0]?.amount).toBeGreaterThan(0)
-    expect(Number.isFinite(result[0]?.amount)).toBe(true)
+    expect(result.settlements).toHaveLength(1)
+    expect(result.settlements[0]?.amount).toBeGreaterThan(0)
+    expect(Number.isFinite(result.settlements[0]?.amount)).toBe(true)
   })
 
   it('handles 1 yen amounts correctly', () => {
@@ -370,10 +399,254 @@ describe('floating point precision', () => {
 
     const result = calculateSettlements({
       members,
+      groups: [],
       expenses,
       roundingUnit: 1,
     })
 
-    expect(result.length).toBeLessThanOrEqual(1)
+    expect(result.settlements.length).toBeLessThanOrEqual(1)
+  })
+})
+
+const createGroup = (
+  id: string,
+  name: string,
+  count: number,
+  bias = 1.0,
+): ParticipantGroup => ({
+  id: id as GroupId,
+  name,
+  count,
+  bias,
+})
+
+describe('calculateSettlements with groups', () => {
+  it('calculates group settlements with single group', () => {
+    const members = [createMember('m1', '幹事')]
+    const groups = [createGroup('g1', '参加者', 10)]
+    const expenses = [createExpense('食事', 11000, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      groups,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.groupSettlements).toHaveLength(1)
+    expect(result.groupSettlements[0]?.groupId).toBe('g1')
+    expect(result.groupSettlements[0]?.perPersonAmount).toBe(1000)
+    expect(result.groupSettlements[0]?.totalAmount).toBe(10000)
+  })
+
+  it('calculates with members and groups mixed', () => {
+    const members = [
+      createMember('m1', '幹事', 1.0),
+      createMember('m2', '会計', 1.0),
+    ]
+    const groups = [createGroup('g1', '一般参加者', 8, 1.0)]
+    const expenses = [createExpense('食事', 10000, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      groups,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.groupSettlements).toHaveLength(1)
+    expect(result.groupSettlements[0]?.perPersonAmount).toBe(1000)
+    expect(result.groupSettlements[0]?.totalAmount).toBe(8000)
+
+    expect(result.settlements).toHaveLength(1)
+    expect(result.settlements[0]).toEqual({
+      from: 'm2',
+      to: 'm1',
+      amount: 1000,
+    })
+  })
+
+  it('calculates with multiple groups with different bias', () => {
+    const members = [createMember('m1', '幹事', 1.0)]
+    const groups = [
+      createGroup('g1', '飲む人', 10, 1.0),
+      createGroup('g2', '飲まない人', 10, 0.5),
+    ]
+    const expenses = [createExpense('飲み会', 16000, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      groups,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.groupSettlements).toHaveLength(2)
+
+    const drinkersGroup = result.groupSettlements.find(
+      (g) => g.groupId === 'g1',
+    )
+    const nonDrinkersGroup = result.groupSettlements.find(
+      (g) => g.groupId === 'g2',
+    )
+
+    expect(drinkersGroup?.perPersonAmount).toBe(1000)
+    expect(nonDrinkersGroup?.perPersonAmount).toBe(500)
+  })
+
+  it('handles members with different bias alongside groups', () => {
+    const members = [
+      createMember('m1', '社長', 2.0),
+      createMember('m2', '新人', 0.5),
+    ]
+    const groups = [createGroup('g1', '一般社員', 10, 1.0)]
+    const expenses = [createExpense('忘年会', 12500, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      groups,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.groupSettlements).toHaveLength(1)
+    expect(result.groupSettlements[0]?.perPersonAmount).toBe(1000)
+
+    expect(result.settlements).toHaveLength(1)
+    expect(result.settlements[0]?.from).toBe('m2')
+    expect(result.settlements[0]?.to).toBe('m1')
+    expect(result.settlements[0]?.amount).toBe(500)
+  })
+
+  it('handles multiple payers with groups', () => {
+    const members = [createMember('m1', '幹事A'), createMember('m2', '幹事B')]
+    const groups = [createGroup('g1', '参加者', 8)]
+    const expenses = [
+      createExpense('1次会', 5000, 'm1'),
+      createExpense('2次会', 5000, 'm2'),
+    ]
+
+    const result = calculateSettlements({
+      members,
+      groups,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.groupSettlements).toHaveLength(1)
+    expect(result.groupSettlements[0]?.perPersonAmount).toBe(1000)
+
+    expect(result.settlements).toHaveLength(0)
+  })
+
+  it('applies rounding to group settlements', () => {
+    const members = [createMember('m1', '幹事')]
+    const groups = [createGroup('g1', '参加者', 3)]
+    const expenses = [createExpense('食事', 10000, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      groups,
+      expenses,
+      roundingUnit: 100,
+    })
+
+    expect(result.groupSettlements[0]?.perPersonAmount).toBe(2500)
+    expect((result.groupSettlements[0]?.perPersonAmount ?? 0) % 100).toBe(0)
+  })
+
+  it('returns empty when no members even with groups', () => {
+    const groups = [createGroup('g1', '参加者', 10)]
+    const expenses = [createExpense('食事', 10000, 'm1')]
+
+    const result = calculateSettlements({
+      members: [],
+      groups,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.settlements).toEqual([])
+    expect(result.groupSettlements).toEqual([])
+  })
+
+  it('handles large group scenario (30 people party)', () => {
+    const members = [createMember('m1', '幹事', 1.0)]
+    const groups = [
+      createGroup('g1', '飲む人', 20, 1.0),
+      createGroup('g2', '飲まない人', 9, 0.7),
+    ]
+    const expenses = [createExpense('忘年会', 60000, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      groups,
+      expenses,
+      roundingUnit: 100,
+    })
+
+    expect(result.groupSettlements).toHaveLength(2)
+
+    const drinkersGroup = result.groupSettlements.find(
+      (g) => g.groupId === 'g1',
+    )
+    const nonDrinkersGroup = result.groupSettlements.find(
+      (g) => g.groupId === 'g2',
+    )
+
+    expect(drinkersGroup).toBeDefined()
+    expect(nonDrinkersGroup).toBeDefined()
+    expect(drinkersGroup?.perPersonAmount).toBeGreaterThan(
+      nonDrinkersGroup?.perPersonAmount ?? 0,
+    )
+
+    const totalFromGroups =
+      (drinkersGroup?.totalAmount ?? 0) + (nonDrinkersGroup?.totalAmount ?? 0)
+    expect(totalFromGroups).toBeLessThanOrEqual(60000)
+  })
+
+  it('handles group with count=1 same as member', () => {
+    const membersOnly = [
+      createMember('m1', '幹事'),
+      createMember('m2', '参加者A'),
+    ]
+    const resultMembersOnly = calculateSettlements({
+      members: membersOnly,
+      groups: [],
+      expenses: [createExpense('食事', 2000, 'm1')],
+      roundingUnit: 1,
+    })
+
+    const membersWithGroup = [createMember('m1', '幹事')]
+    const groups = [createGroup('g1', '参加者A', 1, 1.0)]
+    const resultWithGroup = calculateSettlements({
+      members: membersWithGroup,
+      groups,
+      expenses: [createExpense('食事', 2000, 'm1')],
+      roundingUnit: 1,
+    })
+
+    expect(resultWithGroup.groupSettlements[0]?.perPersonAmount).toBe(1000)
+    expect(resultMembersOnly.settlements[0]?.amount).toBe(1000)
+  })
+
+  it('handles zero bias group correctly', () => {
+    const members = [createMember('m1', '幹事', 1.0)]
+    const groups = [
+      createGroup('g1', '有料参加', 5, 1.0),
+      createGroup('g2', '無料招待', 5, 0),
+    ]
+    const expenses = [createExpense('食事', 6000, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      groups,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    const freeGroup = result.groupSettlements.find((g) => g.groupId === 'g2')
+    expect(freeGroup?.perPersonAmount).toBe(0)
+    expect(freeGroup?.totalAmount).toBe(0)
   })
 })

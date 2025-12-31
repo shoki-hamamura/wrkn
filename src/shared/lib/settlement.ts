@@ -1,8 +1,10 @@
 import type {
   Balance,
   Expense,
+  GroupSettlement,
   Member,
   MemberId,
+  ParticipantGroup,
   RoundingUnit,
   Settlement,
 } from '@/shared/types'
@@ -10,24 +12,103 @@ import { ceilToUnit } from './rounding'
 
 export interface CalculateSettlementsInput {
   members: Member[]
+  groups: ParticipantGroup[]
   expenses: Expense[]
   roundingUnit: RoundingUnit
 }
 
+export interface CalculateSettlementsResult {
+  settlements: Settlement[]
+  groupSettlements: GroupSettlement[]
+}
+
 export function calculateSettlements({
   members,
+  groups,
   expenses,
   roundingUnit,
-}: CalculateSettlementsInput): Settlement[] {
+}: CalculateSettlementsInput): CalculateSettlementsResult {
   if (members.length === 0 || expenses.length === 0) {
-    return []
+    return { settlements: [], groupSettlements: [] }
+  }
+
+  if (groups.length > 0) {
+    return calculateWithGroups(members, groups, expenses, roundingUnit)
   }
 
   const shares = calculateShares(members, expenses)
   const paid = calculatePaidAmounts(members, expenses)
   const balances = calculateBalances(members, shares, paid)
 
-  return minimizeTransactions(balances, roundingUnit)
+  return {
+    settlements: minimizeTransactions(balances, roundingUnit),
+    groupSettlements: [],
+  }
+}
+
+function calculateWithGroups(
+  members: Member[],
+  groups: ParticipantGroup[],
+  expenses: Expense[],
+  roundingUnit: RoundingUnit,
+): CalculateSettlementsResult {
+  const totalAmount = expenses.reduce((sum, e) => sum + e.amount, 0)
+
+  const memberWeights = members.map((m) => ({
+    type: 'member' as const,
+    id: m.id,
+    name: m.name,
+    bias: m.bias,
+    count: 1,
+    weightedBias: m.bias,
+  }))
+
+  const groupWeights = groups.map((g) => ({
+    type: 'group' as const,
+    id: g.id,
+    name: g.name,
+    bias: g.bias,
+    count: g.count,
+    weightedBias: g.bias * g.count,
+  }))
+
+  const allWeights = [...memberWeights, ...groupWeights]
+  const totalWeightedBias = allWeights.reduce(
+    (sum, w) => sum + w.weightedBias,
+    0,
+  )
+
+  if (totalWeightedBias === 0) {
+    return { settlements: [], groupSettlements: [] }
+  }
+
+  const memberShares = new Map<MemberId, number>()
+  for (const mw of memberWeights) {
+    const share = (totalAmount * mw.weightedBias) / totalWeightedBias
+    memberShares.set(mw.id, share)
+  }
+
+  const groupSettlements: GroupSettlement[] = groupWeights.map((gw) => {
+    const totalShare = (totalAmount * gw.weightedBias) / totalWeightedBias
+    const perPerson = totalShare / gw.count
+    return {
+      groupId: gw.id,
+      groupName: gw.name,
+      totalAmount: ceilToUnit(totalShare, roundingUnit),
+      perPersonAmount: ceilToUnit(perPerson, roundingUnit),
+    }
+  })
+
+  const paid = calculatePaidAmounts(members, expenses)
+  const balances = members.map((member) => ({
+    memberId: member.id,
+    amount: (paid.get(member.id) ?? 0) - (memberShares.get(member.id) ?? 0),
+  }))
+
+  return {
+    settlements: minimizeTransactions(balances, roundingUnit),
+    groupSettlements,
+  }
 }
 
 function calculateShares(

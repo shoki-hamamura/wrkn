@@ -19,6 +19,7 @@ describe('formatResultText', () => {
 
     const result = formatResultText({
       settlements,
+      groupSettlements: [],
       members,
       currency: 'JPY',
       totalAmount: 23000,
@@ -34,6 +35,7 @@ describe('formatResultText', () => {
   it('formats result with no settlements', () => {
     const result = formatResultText({
       settlements: [],
+      groupSettlements: [],
       members,
       currency: 'JPY',
       totalAmount: 3000,
@@ -50,6 +52,7 @@ describe('formatResultText', () => {
 
     const result = formatResultText({
       settlements,
+      groupSettlements: [],
       members,
       currency: 'USD',
       totalAmount: 100,
