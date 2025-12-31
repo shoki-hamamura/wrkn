@@ -27,7 +27,7 @@ export const WithPlaceholder: Story = {
   },
 }
 
-export const Error: Story = {
+export const ErrorState: Story = {
   args: {
     defaultValue: 'Invalid value',
     error: true,

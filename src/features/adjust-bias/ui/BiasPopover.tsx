@@ -1,12 +1,19 @@
 'use client'
 
+import type { ReactElement } from 'react'
 import { BIAS_PRESETS, type Member } from '@/entities/member'
 import { useWarikanActions } from '@/entities/warikan'
-import { Button, Popover, PopoverHeader, PopoverTitle, Slider } from '@/shared/ui'
+import {
+  Button,
+  Popover,
+  PopoverHeader,
+  PopoverTitle,
+  Slider,
+} from '@/shared/ui'
 
 export interface BiasPopoverProps {
   member: Member
-  trigger: React.ReactNode
+  trigger: ReactElement
 }
 
 export function BiasPopover({ member, trigger }: BiasPopoverProps) {
@@ -24,9 +31,9 @@ export function BiasPopover({ member, trigger }: BiasPopoverProps) {
 
       <div className="space-y-4">
         <div>
-          <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <span className="mb-2 block text-sm font-medium text-foreground-muted">
             負担割合
-          </label>
+          </span>
           <Slider
             value={member.bias}
             onChange={(value) => updateMemberBias(member.id, value)}
@@ -34,13 +41,13 @@ export function BiasPopover({ member, trigger }: BiasPopoverProps) {
             max={2.0}
             step={0.1}
           />
-          <p className="mt-2 text-center text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+          <p className="mt-2 text-center text-2xl font-bold text-foreground">
             {member.bias.toFixed(1)}倍
           </p>
         </div>
 
         <div>
-          <p className="mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <p className="mb-2 text-sm font-medium text-foreground-muted">
             プリセット
           </p>
           <div className="flex flex-wrap gap-2">

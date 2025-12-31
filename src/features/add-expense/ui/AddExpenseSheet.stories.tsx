@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { Button } from '@/shared/ui'
 import { useWarikanStore } from '@/entities/warikan'
+import { Button } from '@/shared/ui'
 import { AddExpenseSheet } from './AddExpenseSheet'
 
 const meta: Meta<typeof AddExpenseSheet> = {
@@ -39,7 +39,7 @@ export const Editing: Story = {
     const members = useWarikanStore((s) => s.members)
     const firstMember = members[0]
 
-    if (!firstMember) return <></>
+    if (!firstMember) return <div>メンバーがありません</div>
 
     return (
       <AddExpenseSheet
