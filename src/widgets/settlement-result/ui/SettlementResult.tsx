@@ -57,9 +57,9 @@ export function SettlementResult({ className }: SettlementResultProps) {
 
       {groupSettlements.length > 0 && (
         <>
-          <h3 className="mb-3 text-sm font-medium text-foreground-muted">
+          <h2 className="mb-3 text-sm font-medium text-foreground-muted">
             グループ別 1人あたり
-          </h3>
+          </h2>
           <div className="mb-6 space-y-2">
             {groupSettlements.map((gs) => (
               <div
@@ -80,9 +80,9 @@ export function SettlementResult({ className }: SettlementResultProps) {
 
       {settlements.length > 0 ? (
         <>
-          <h3 className="mb-3 text-sm font-medium text-foreground-muted">
+          <h2 className="mb-3 text-sm font-medium text-foreground-muted">
             支払い
-          </h3>
+          </h2>
           <div className="mb-6 space-y-3">
             {settlements.map((settlement, index) => (
               <SettlementItem
