@@ -10,7 +10,7 @@ import {
 } from '@/entities/warikan'
 import { formatAmount } from '@/shared/lib'
 import type { MemberId } from '@/shared/types'
-import { Button, Checkbox, Input, RadioGroup, Sheet } from '@/shared/ui'
+import { Button, Checkbox, Input, SegmentedControl, Sheet } from '@/shared/ui'
 import { useCalculator } from '../model/use-calculator'
 import { CalculatorKeypad } from './CalculatorKeypad'
 
@@ -142,11 +142,11 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
             <span className="mb-2 block text-sm font-medium text-foreground-muted">
               立て替えた人
             </span>
-            <RadioGroup
+            <SegmentedControl
               name="paidBy"
-              value={paidBy ?? ''}
+              value={paidBy ?? ('' as MemberId)}
               options={members.map((m) => ({ value: m.id, label: m.name }))}
-              onChange={(value) => setPaidBy(value as MemberId)}
+              onChange={setPaidBy}
             />
           </div>
         )}
