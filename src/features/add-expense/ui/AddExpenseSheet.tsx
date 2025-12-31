@@ -100,10 +100,13 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
 
       <div className="space-y-6">
         <div>
-          <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <label
+            htmlFor="expense-name"
+            className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+          >
             名前
           </label>
-          <Input value={name} onChange={setName} placeholder="1次会" />
+          <Input id="expense-name" value={name} onChange={setName} placeholder="1次会" />
         </div>
 
         <div>

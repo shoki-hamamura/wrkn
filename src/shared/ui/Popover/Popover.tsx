@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react'
+import { useCallback, useEffect, useId, useRef, useState, type ComponentProps, type ReactNode } from 'react'
 import { cn } from '@/shared/lib'
 
 export interface PopoverProps {
@@ -20,6 +20,7 @@ export function Popover({
 }: PopoverProps) {
   const [internalOpen, setInternalOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const popoverId = useId()
 
   const isControlled = controlledOpen !== undefined
   const open = isControlled ? controlledOpen : internalOpen
@@ -66,9 +67,18 @@ export function Popover({
 
   return (
     <div ref={containerRef} className="relative inline-block">
-      <div onClick={() => setOpen(!open)}>{trigger}</div>
+      <div
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        aria-controls={open ? popoverId : undefined}
+      >
+        {trigger}
+      </div>
       {open && (
         <div
+          id={popoverId}
+          role="dialog"
           className={cn(
             'absolute top-full z-50 mt-2 w-64 rounded-xl border border-neutral-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800',
             alignmentStyles[align]
