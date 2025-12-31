@@ -21,9 +21,14 @@ export function HomePage() {
 
   return (
     <div className="mx-auto min-h-screen max-w-lg bg-background px-4 py-6">
-      <header className="mb-6 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-foreground">なかよしわりかん</h1>
-        <div className="flex items-center gap-1">
+      <header className="relative mb-8 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex size-12 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-amber-500 shadow-md">
+            <span className="text-2xl font-bold text-white">¥</span>
+          </div>
+          <h1 className="text-3xl font-black italic text-foreground">なかよしわりかん</h1>
+        </div>
+        <div className="absolute right-0 top-0 flex items-center gap-1">
           <Button
             variant="ghost"
             size="sm"
