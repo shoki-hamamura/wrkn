@@ -20,6 +20,7 @@ import {
   MIN_BIAS,
   MIN_GROUP_COUNT,
 } from '@/shared/constants'
+import { validateWarikanState } from '@/shared/lib/validation'
 import type {
   CurrencyCode,
   Expense,
@@ -409,6 +410,25 @@ export const useWarikanStore = create<WarikanStore>()(
             } as WarikanState
           }
           return persistedState as WarikanState
+        },
+        onRehydrateStorage: () => {
+          return (state, error) => {
+            if (error) {
+              console.error('[Warikan] Failed to rehydrate storage:', error)
+              localStorage.removeItem('nakayoshi-warikan')
+              return
+            }
+            if (!state) return
+
+            const validatedState = validateWarikanState(state)
+            if (!validatedState) {
+              console.warn(
+                '[Warikan] Invalid stored data detected, resetting to initial state',
+              )
+              localStorage.removeItem('nakayoshi-warikan')
+              useWarikanStore.setState(initialState)
+            }
+          }
         },
       },
     ),
