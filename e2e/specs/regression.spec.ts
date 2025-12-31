@@ -78,6 +78,7 @@ test.describe('リグレッションテスト - 上限値', () => {
     }
 
     await expect(page.getByText(/9,999,999,999/)).toBeVisible()
+    await expect(page.getByText(/99,999,999,999/)).not.toBeVisible()
   })
 })
 

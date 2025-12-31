@@ -24,6 +24,7 @@ export function MobileHeader({ className }: MobileHeaderProps) {
           size="sm"
           onClick={open}
           className="size-10 p-0"
+          aria-label="メニューを開く"
         >
           <Menu className="size-5" />
         </Button>

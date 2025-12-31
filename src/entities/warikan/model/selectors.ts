@@ -45,12 +45,12 @@ export const useSettings = () =>
 
 export const useCurrency = () =>
   useWarikanStore(
-    (state) => getCurrentSession(state)?.settings.currency ?? 'JPY',
+    (state) => getCurrentSession(state)?.settings?.currency ?? 'JPY',
   )
 
 export const useRoundingUnit = () =>
   useWarikanStore(
-    (state) => getCurrentSession(state)?.settings.roundingUnit ?? 10,
+    (state) => getCurrentSession(state)?.settings?.roundingUnit ?? 10,
   )
 
 export const useTotalAmount = () =>

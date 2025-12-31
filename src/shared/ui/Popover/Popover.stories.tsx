@@ -48,8 +48,14 @@ export const BiasAdjustment: Story = {
           </PopoverHeader>
           <div className="space-y-4">
             <div>
-              <span className="mb-2 block text-sm font-medium">負担割合</span>
+              <label
+                htmlFor="bias-slider"
+                className="mb-2 block text-sm font-medium"
+              >
+                負担割合
+              </label>
               <Slider
+                id="bias-slider"
                 value={bias}
                 onChange={setBias}
                 min={0.5}

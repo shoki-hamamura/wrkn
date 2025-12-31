@@ -90,7 +90,7 @@ function calculateWithGroups(
 
   const groupSettlements: GroupSettlement[] = groupWeights.map((gw) => {
     const totalShare = (totalAmount * gw.weightedBias) / totalWeightedBias
-    const perPerson = totalShare / gw.count
+    const perPerson = gw.count > 0 ? totalShare / gw.count : 0
     return {
       groupId: gw.id,
       groupName: gw.name,
@@ -130,6 +130,7 @@ function calculateShares(
     if (participants.length === 0) continue
 
     const totalBias = participants.reduce((sum, p) => sum + p.bias, 0)
+    if (totalBias === 0) continue
 
     for (const participant of participants) {
       const share = (expense.amount * participant.bias) / totalBias

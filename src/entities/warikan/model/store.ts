@@ -48,11 +48,11 @@ export interface WarikanState {
 }
 
 export interface SessionActions {
-  createSession: (name?: string) => SessionId
+  createSession: (name?: string) => SessionId | undefined
   deleteSession: (id: SessionId) => void
   switchSession: (id: SessionId) => void
   renameSession: (id: SessionId, name: string) => void
-  duplicateSession: (id: SessionId) => SessionId
+  duplicateSession: (id: SessionId) => SessionId | undefined
 }
 
 export interface WarikanActions {
@@ -136,9 +136,9 @@ export const useWarikanStore = create<WarikanStore>()(
         ...initialState,
 
         createSession: (name) => {
+          if (get().sessions.length >= MAX_SESSIONS) return undefined
           const newSession = createNewSession(name)
           set((state) => {
-            if (state.sessions.length >= MAX_SESSIONS) return
             state.sessions.push(newSession)
             state.currentSessionId = newSession.id
           })
@@ -184,8 +184,10 @@ export const useWarikanStore = create<WarikanStore>()(
           }),
 
         duplicateSession: (id) => {
-          const sourceSession = get().sessions.find((s) => s.id === id)
-          if (!sourceSession) return id
+          const state = get()
+          if (state.sessions.length >= MAX_SESSIONS) return undefined
+          const sourceSession = state.sessions.find((s) => s.id === id)
+          if (!sourceSession) return undefined
 
           const newSession: Session = {
             ...structuredClone(sourceSession),
@@ -198,10 +200,9 @@ export const useWarikanStore = create<WarikanStore>()(
             updatedAt: Date.now(),
           }
 
-          set((state) => {
-            if (state.sessions.length >= MAX_SESSIONS) return
-            state.sessions.push(newSession)
-            state.currentSessionId = newSession.id
+          set((draft) => {
+            draft.sessions.push(newSession)
+            draft.currentSessionId = newSession.id
           })
 
           return newSession.id
