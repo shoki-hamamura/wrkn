@@ -107,7 +107,9 @@ describe('useCalculator', () => {
       }
     })
 
-    expect(result.current.numericValue.toString().length).toBeLessThanOrEqual(10)
+    expect(result.current.numericValue.toString().length).toBeLessThanOrEqual(
+      10,
+    )
   })
 
   it('formats display value with commas', () => {
@@ -134,5 +136,92 @@ describe('useCalculator', () => {
     })
 
     expect(result.current.numericValue).toBe(5)
+  })
+
+  describe('amount boundary values', () => {
+    it('handles 0 amount (initial state)', () => {
+      const { result } = renderHook(() => useCalculator())
+      expect(result.current.numericValue).toBe(0)
+    })
+
+    it('handles 1 digit (minimum input)', () => {
+      const { result } = renderHook(() => useCalculator())
+
+      act(() => {
+        result.current.handleKey('1')
+      })
+
+      expect(result.current.numericValue).toBe(1)
+    })
+
+    it('handles exactly 10 digits (maximum)', () => {
+      const { result } = renderHook(() => useCalculator())
+
+      act(() => {
+        for (let i = 0; i < 10; i++) {
+          result.current.handleKey('9')
+        }
+      })
+
+      expect(result.current.numericValue.toString().length).toBe(10)
+      expect(result.current.numericValue).toBe(9999999999)
+    })
+
+    it('rejects 11th digit', () => {
+      const { result } = renderHook(() => useCalculator())
+
+      act(() => {
+        for (let i = 0; i < 11; i++) {
+          result.current.handleKey('9')
+        }
+      })
+
+      expect(result.current.numericValue.toString().length).toBe(10)
+      expect(result.current.numericValue).toBe(9999999999)
+    })
+
+    it('handles 00 key at 9 digits', () => {
+      const { result } = renderHook(() => useCalculator())
+
+      act(() => {
+        for (let i = 0; i < 9; i++) {
+          result.current.handleKey('9')
+        }
+        result.current.handleKey('00')
+      })
+
+      expect(result.current.numericValue.toString().length).toBeLessThanOrEqual(
+        10,
+      )
+    })
+
+    it('handles 00 key at exactly 9 digits without overflow', () => {
+      const { result } = renderHook(() => useCalculator())
+
+      act(() => {
+        result.current.handleKey('1')
+        for (let i = 0; i < 8; i++) {
+          result.current.handleKey('0')
+        }
+        result.current.handleKey('00')
+      })
+
+      expect(result.current.numericValue.toString().length).toBeLessThanOrEqual(
+        10,
+      )
+    })
+
+    it('handles backspace on large number', () => {
+      const { result } = renderHook(() => useCalculator())
+
+      act(() => {
+        for (let i = 0; i < 10; i++) {
+          result.current.handleKey('9')
+        }
+        result.current.handleKey('backspace')
+      })
+
+      expect(result.current.numericValue).toBe(999999999)
+    })
   })
 })

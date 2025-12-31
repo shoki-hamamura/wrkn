@@ -15,7 +15,10 @@ const KEYS = [
   ['0', '00', '⌫'],
 ] as const
 
-export function CalculatorKeypad({ onKeyPress, className }: CalculatorKeypadProps) {
+export function CalculatorKeypad({
+  onKeyPress,
+  className,
+}: CalculatorKeypadProps) {
   return (
     <div className={cn('grid grid-cols-3 gap-2', className)}>
       {KEYS.flat().map((key) => (

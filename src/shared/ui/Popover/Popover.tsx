@@ -1,11 +1,20 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react'
+import { Slot } from '@radix-ui/react-slot'
+import {
+  type ComponentProps,
+  type ReactElement,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from 'react'
 import { cn } from '@/shared/lib'
 
 export interface PopoverProps {
-  trigger: ReactNode
-  children: ReactNode
+  trigger: ReactElement
+  children: React.ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
   align?: 'start' | 'center' | 'end'
@@ -20,6 +29,7 @@ export function Popover({
 }: PopoverProps) {
   const [internalOpen, setInternalOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const popoverId = useId()
 
   const isControlled = controlledOpen !== undefined
   const open = isControlled ? controlledOpen : internalOpen
@@ -31,12 +41,15 @@ export function Popover({
       }
       onOpenChange?.(value)
     },
-    [isControlled, onOpenChange]
+    [isControlled, onOpenChange],
   )
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setOpen(false)
       }
     }
@@ -66,12 +79,21 @@ export function Popover({
 
   return (
     <div ref={containerRef} className="relative inline-block">
-      <div onClick={() => setOpen(!open)}>{trigger}</div>
+      <Slot
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        aria-controls={open ? popoverId : undefined}
+      >
+        {trigger}
+      </Slot>
       {open && (
         <div
+          id={popoverId}
+          role="dialog"
           className={cn(
-            'absolute top-full z-50 mt-2 w-64 rounded-xl border border-neutral-200 bg-white p-4 shadow-lg dark:border-neutral-700 dark:bg-neutral-800',
-            alignmentStyles[align]
+            'absolute top-full z-50 mt-2 w-64 rounded-2xl border border-border bg-surface p-4 shadow-lg',
+            alignmentStyles[align],
           )}
         >
           {children}
@@ -81,10 +103,14 @@ export function Popover({
   )
 }
 
-export function PopoverHeader({ children, className, ...props }: ComponentProps<'div'>) {
+export function PopoverHeader({
+  children,
+  className,
+  ...props
+}: ComponentProps<'div'>) {
   return (
     <div
-      className={cn('mb-3 border-b border-neutral-200 pb-2 dark:border-neutral-700', className)}
+      className={cn('mb-3 border-b border-border pb-2', className)}
       {...props}
     >
       {children}
@@ -92,12 +118,13 @@ export function PopoverHeader({ children, className, ...props }: ComponentProps<
   )
 }
 
-export function PopoverTitle({ children, className, ...props }: ComponentProps<'h4'>) {
+export function PopoverTitle({
+  children,
+  className,
+  ...props
+}: ComponentProps<'h4'>) {
   return (
-    <h4
-      className={cn('font-semibold text-neutral-900 dark:text-neutral-100', className)}
-      {...props}
-    >
+    <h4 className={cn('font-semibold text-foreground', className)} {...props}>
       {children}
     </h4>
   )

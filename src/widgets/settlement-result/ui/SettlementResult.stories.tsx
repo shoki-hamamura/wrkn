@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { useWarikanStore } from '@/entities/warikan'
+import { getCurrentSession, useWarikanStore } from '@/entities/warikan'
 import { SettlementResult } from './SettlementResult'
 
 const meta: Meta<typeof SettlementResult> = {
@@ -44,7 +44,8 @@ export const NoSettlements: Story = {
       useWarikanStore.getState().addMember('太郎')
       useWarikanStore.getState().addMember('花子')
 
-      const members = useWarikanStore.getState().members
+      const members =
+        getCurrentSession(useWarikanStore.getState())?.members ?? []
       if (members[0] && members[1]) {
         useWarikanStore.getState().addExpense({
           name: '食事1',
@@ -72,7 +73,8 @@ export const WithSettlements: Story = {
       useWarikanStore.getState().addMember('花子')
       useWarikanStore.getState().addMember('次郎')
 
-      const members = useWarikanStore.getState().members
+      const members =
+        getCurrentSession(useWarikanStore.getState())?.members ?? []
       if (members[0] && members[1]) {
         useWarikanStore.getState().addExpense({
           name: '1次会',
@@ -100,7 +102,8 @@ export const WithBias: Story = {
       useWarikanStore.getState().addMember('花子')
       useWarikanStore.getState().addMember('次郎')
 
-      const members = useWarikanStore.getState().members
+      const members =
+        getCurrentSession(useWarikanStore.getState())?.members ?? []
       if (members[0] && members[1] && members[2]) {
         useWarikanStore.getState().updateMemberBias(members[1].id, 1.5)
         useWarikanStore.getState().updateMemberBias(members[2].id, 0.7)

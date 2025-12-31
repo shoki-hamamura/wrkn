@@ -29,8 +29,15 @@ export const BiasSlider: Story = {
     const [value, setValue] = useState(1.0)
     return (
       <div className="w-64 space-y-2">
-        <label className="text-sm font-medium">負担割合</label>
-        <Slider value={value} onChange={setValue} min={0.5} max={2.0} step={0.1} showValue />
+        <span className="text-sm font-medium">負担割合</span>
+        <Slider
+          value={value}
+          onChange={setValue}
+          min={0.5}
+          max={2.0}
+          step={0.1}
+          showValue
+        />
         <p className="text-sm text-neutral-500">{value}倍</p>
       </div>
     )
@@ -46,7 +53,14 @@ export const CustomRange: Story = {
     const [value, setValue] = useState(1000)
     return (
       <div className="w-64 space-y-2">
-        <Slider value={value} onChange={setValue} min={0} max={10000} step={100} showValue />
+        <Slider
+          value={value}
+          onChange={setValue}
+          min={0}
+          max={10000}
+          step={100}
+          showValue
+        />
         <p className="text-sm text-neutral-500">¥{value.toLocaleString()}</p>
       </div>
     )

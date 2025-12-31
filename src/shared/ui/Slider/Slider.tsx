@@ -3,7 +3,8 @@
 import type { ComponentProps } from 'react'
 import { cn } from '@/shared/lib'
 
-export interface SliderProps extends Omit<ComponentProps<'input'>, 'type' | 'onChange'> {
+export interface SliderProps
+  extends Omit<ComponentProps<'input'>, 'type' | 'onChange'> {
   value: number
   onChange: (value: number) => void
   min?: number
@@ -31,11 +32,11 @@ export function Slider({
         min={min}
         max={max}
         step={step}
-        className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-neutral-200 accent-emerald-600 dark:bg-neutral-700"
+        className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-border accent-primary"
         {...props}
       />
       {showValue && (
-        <span className="min-w-12 text-right text-sm font-medium text-neutral-900 dark:text-neutral-100">
+        <span className="min-w-12 text-right text-sm font-medium text-foreground">
           {value}
         </span>
       )}

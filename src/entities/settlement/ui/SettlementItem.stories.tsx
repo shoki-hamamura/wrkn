@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import type { MemberId } from '@/shared/types'
-import type { Member } from '@/entities/member'
+import type { Member, MemberId } from '@/shared/types'
 import { SettlementItem } from './SettlementItem'
 
 const meta: Meta<typeof SettlementItem> = {
@@ -57,12 +56,20 @@ export const MultipleSettlements: Story = {
   render: () => (
     <div className="flex max-w-md flex-col gap-3">
       <SettlementItem
-        settlement={{ from: 'm3' as MemberId, to: 'm1' as MemberId, amount: 7700 }}
+        settlement={{
+          from: 'm3' as MemberId,
+          to: 'm1' as MemberId,
+          amount: 7700,
+        }}
         members={members}
         currency="JPY"
       />
       <SettlementItem
-        settlement={{ from: 'm3' as MemberId, to: 'm2' as MemberId, amount: 3900 }}
+        settlement={{
+          from: 'm3' as MemberId,
+          to: 'm2' as MemberId,
+          amount: 3900,
+        }}
         members={members}
         currency="JPY"
       />

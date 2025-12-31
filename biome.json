@@ -1,6 +1,6 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
-  "extends": ["ultracite"],
+  "$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
+  "extends": ["ultracite/next"],
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -17,16 +17,19 @@
   "linter": {
     "enabled": true,
     "rules": {
+      "complexity": {
+        "useLiteralKeys": "off"
+      },
       "correctness": {
         "noUnusedVariables": "error",
         "useHookAtTopLevel": "error"
       },
       "style": {
-        "noVar": "error",
         "useConst": "error"
       },
       "suspicious": {
-        "noExplicitAny": "error"
+        "noExplicitAny": "error",
+        "noVar": "error"
       }
     }
   },
@@ -34,6 +37,18 @@
     "formatter": {
       "quoteStyle": "single",
       "semicolons": "asNeeded"
+    }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true,
+      "tailwindDirectives": true
+    },
+    "linter": {
+      "enabled": false
+    },
+    "formatter": {
+      "enabled": false
     }
   }
 }

@@ -1,11 +1,16 @@
 'use client'
 
 import { useState } from 'react'
+import type { Expense } from '@/entities/expense'
+import {
+  useCurrency,
+  useHasGroups,
+  useMembers,
+  useWarikanActions,
+} from '@/entities/warikan'
 import { formatAmount } from '@/shared/lib'
 import type { MemberId } from '@/shared/types'
-import { Button, Checkbox, Input, RadioGroup, Sheet } from '@/shared/ui'
-import type { Expense } from '@/entities/expense'
-import { useCurrency, useMembers, useWarikanActions } from '@/entities/warikan'
+import { Button, Checkbox, Input, SegmentedControl, Sheet } from '@/shared/ui'
 import { useCalculator } from '../model/use-calculator'
 import { CalculatorKeypad } from './CalculatorKeypad'
 
@@ -15,7 +20,11 @@ export interface AddExpenseSheetProps {
   editingExpense?: Expense
 }
 
-export function AddExpenseSheet({ open, onOpenChange, editingExpense }: AddExpenseSheetProps) {
+export function AddExpenseSheet({
+  open,
+  onOpenChange,
+  editingExpense,
+}: AddExpenseSheetProps) {
   return (
     <Sheet.Root open={open} onOpenChange={onOpenChange}>
       <Sheet.Content>
@@ -36,6 +45,7 @@ interface AddExpenseFormProps {
 
 function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
   const members = useMembers()
+  const hasGroups = useHasGroups()
   const currency = useCurrency()
   const { addExpense, updateExpense } = useWarikanActions()
 
@@ -43,14 +53,14 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
 
   const [name, setName] = useState(editingExpense?.name ?? '')
   const [paidBy, setPaidBy] = useState<MemberId | null>(
-    editingExpense?.paidBy ?? members[0]?.id ?? null
+    editingExpense?.paidBy ?? members[0]?.id ?? null,
   )
   const [allParticipants, setAllParticipants] = useState(
-    editingExpense ? editingExpense.participants.length === 0 : true
+    editingExpense ? editingExpense.participants.length === 0 : true,
   )
-  const [selectedParticipants, setSelectedParticipants] = useState<Set<MemberId>>(
-    () => new Set(editingExpense?.participants ?? [])
-  )
+  const [selectedParticipants, setSelectedParticipants] = useState<
+    Set<MemberId>
+  >(() => new Set(editingExpense?.participants ?? []))
 
   const calculator = useCalculator(editingExpense?.amount ?? 0)
 
@@ -90,7 +100,10 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
     })
   }
 
-  const isValid = paidBy && calculator.numericValue > 0 && (allParticipants || selectedParticipants.size > 0)
+  const isValid =
+    paidBy &&
+    calculator.numericValue > 0 &&
+    (allParticipants || selectedParticipants.size > 0)
 
   return (
     <>
@@ -100,17 +113,25 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
 
       <div className="space-y-6">
         <div>
-          <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <label
+            htmlFor="expense-name"
+            className="mb-2 block text-sm font-medium text-foreground-muted"
+          >
             名前
           </label>
-          <Input value={name} onChange={setName} placeholder="1次会" />
+          <Input
+            id="expense-name"
+            value={name}
+            onChange={setName}
+            placeholder="1次会"
+          />
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <span className="mb-2 block text-sm font-medium text-foreground-muted">
             金額
-          </label>
-          <div className="mb-4 rounded-lg bg-neutral-100 p-4 text-right text-3xl font-bold text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">
+          </span>
+          <div className="mb-4 rounded-xl bg-surface-elevated p-4 text-right text-3xl font-bold text-foreground">
             {formatAmount(calculator.numericValue, currency)}
           </div>
           <CalculatorKeypad onKeyPress={calculator.handleKey} />
@@ -118,23 +139,23 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
 
         {members.length > 0 && (
           <div>
-            <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            <span className="mb-2 block text-sm font-medium text-foreground-muted">
               立て替えた人
-            </label>
-            <RadioGroup
+            </span>
+            <SegmentedControl
               name="paidBy"
-              value={paidBy ?? ''}
+              value={paidBy ?? ('' as MemberId)}
               options={members.map((m) => ({ value: m.id, label: m.name }))}
-              onChange={(value) => setPaidBy(value as MemberId)}
+              onChange={setPaidBy}
             />
           </div>
         )}
 
-        {members.length > 1 && (
+        {members.length > 1 && !hasGroups && (
           <div>
-            <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            <span className="mb-2 block text-sm font-medium text-foreground-muted">
               参加者
-            </label>
+            </span>
             <div className="space-y-2">
               <Checkbox
                 label="全員"
@@ -154,6 +175,17 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {hasGroups && (
+          <div>
+            <span className="mb-2 block text-sm font-medium text-foreground-muted">
+              参加者
+            </span>
+            <p className="text-sm text-foreground-muted">
+              グループが設定されているため、全員参加となります
+            </p>
           </div>
         )}
 

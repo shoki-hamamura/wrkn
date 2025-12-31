@@ -22,7 +22,9 @@ export const Default: Story = {
           <Sheet.Content>
             <Sheet.Header>
               <Sheet.Title>シートタイトル</Sheet.Title>
-              <Sheet.Description>シートの説明文がここに入ります</Sheet.Description>
+              <Sheet.Description>
+                シートの説明文がここに入ります
+              </Sheet.Description>
             </Sheet.Header>
             <div className="space-y-4">
               <p>シートのコンテンツ</p>
@@ -50,12 +52,26 @@ export const WithForm: Story = {
             </Sheet.Header>
             <div className="space-y-4">
               <div>
-                <label className="mb-1 block text-sm font-medium">名前</label>
-                <Input placeholder="1次会" />
+                <label
+                  htmlFor="expense-name"
+                  className="mb-1 block text-sm font-medium"
+                >
+                  名前
+                </label>
+                <Input id="expense-name" placeholder="1次会" />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium">金額</label>
-                <Input placeholder="¥0" inputMode="numeric" />
+                <label
+                  htmlFor="expense-amount"
+                  className="mb-1 block text-sm font-medium"
+                >
+                  金額
+                </label>
+                <Input
+                  id="expense-amount"
+                  placeholder="¥0"
+                  inputMode="numeric"
+                />
               </div>
               <Button className="w-full" onClick={() => setOpen(false)}>
                 追加する

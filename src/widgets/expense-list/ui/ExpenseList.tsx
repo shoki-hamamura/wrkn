@@ -1,10 +1,16 @@
 'use client'
 
+import { Receipt } from 'lucide-react'
 import { useState } from 'react'
-import { Button } from '@/shared/ui'
-import { ExpenseCard, type Expense } from '@/entities/expense'
-import { useCurrency, useExpenses, useMembers, useWarikanActions } from '@/entities/warikan'
+import { type Expense, ExpenseCard } from '@/entities/expense'
+import {
+  useCurrency,
+  useExpenses,
+  useMembers,
+  useWarikanActions,
+} from '@/entities/warikan'
 import { AddExpenseSheet } from '@/features/add-expense'
+import { Button } from '@/shared/ui'
 
 export interface ExpenseListProps {
   className?: string
@@ -40,7 +46,8 @@ export function ExpenseList({ className }: ExpenseListProps) {
 
   return (
     <div className={className}>
-      <h2 className="mb-3 text-sm font-medium text-neutral-500 dark:text-neutral-400">
+      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground-muted">
+        <Receipt className="size-4 text-accent" aria-hidden="true" />
         会計
       </h2>
 
@@ -59,13 +66,13 @@ export function ExpenseList({ className }: ExpenseListProps) {
         {canAddExpense ? (
           <Button
             variant="outline"
-            className="w-full"
+            className="w-full font-semibold"
             onClick={handleAdd}
           >
             + 会計を追加
           </Button>
         ) : (
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          <p className="text-sm text-foreground-muted">
             会計を追加するには、まずメンバーを追加してください
           </p>
         )}

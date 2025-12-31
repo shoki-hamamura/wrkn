@@ -48,20 +48,45 @@ export const BiasAdjustment: Story = {
           </PopoverHeader>
           <div className="space-y-4">
             <div>
-              <label className="mb-2 block text-sm font-medium">負担割合</label>
-              <Slider value={bias} onChange={setBias} min={0.5} max={2.0} step={0.1} showValue />
+              <label
+                htmlFor="bias-slider"
+                className="mb-2 block text-sm font-medium"
+              >
+                負担割合
+              </label>
+              <Slider
+                id="bias-slider"
+                value={bias}
+                onChange={setBias}
+                min={0.5}
+                max={2.0}
+                step={0.1}
+                showValue
+              />
               <p className="mt-1 text-center text-lg font-semibold">{bias}倍</p>
             </div>
             <div>
               <p className="mb-2 text-sm font-medium">プリセット</p>
               <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={() => setBias(1.5)}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setBias(1.5)}
+                >
                   飲む人
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => setBias(0.7)}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setBias(0.7)}
+                >
                   飲まない
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => setBias(0.8)}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setBias(0.8)}
+                >
                   幹事
                 </Button>
               </div>
@@ -99,7 +124,10 @@ export const Controlled: Story = {
 export const AlignStart: Story = {
   render: () => (
     <div className="flex justify-center p-20">
-      <Popover trigger={<Button variant="secondary">左揃え</Button>} align="start">
+      <Popover
+        trigger={<Button variant="secondary">左揃え</Button>}
+        align="start"
+      >
         <p className="text-sm">左揃えのポップオーバー</p>
       </Popover>
     </div>
@@ -109,7 +137,10 @@ export const AlignStart: Story = {
 export const AlignEnd: Story = {
   render: () => (
     <div className="flex justify-center p-20">
-      <Popover trigger={<Button variant="secondary">右揃え</Button>} align="end">
+      <Popover
+        trigger={<Button variant="secondary">右揃え</Button>}
+        align="end"
+      >
         <p className="text-sm">右揃えのポップオーバー</p>
       </Popover>
     </div>

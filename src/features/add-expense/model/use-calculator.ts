@@ -37,7 +37,7 @@ export function useCalculator(initialValue = 0): UseCalculatorResult {
         setValue((prev) => {
           if (prev === '0') return prev
           if (prev.length >= MAX_DIGITS - 1) return prev
-          return prev + '00'
+          return `${prev}00`
         })
         break
       case 'backspace':

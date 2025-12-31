@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
+import { getCurrentSession, useWarikanStore } from '@/entities/warikan'
 import { Button } from '@/shared/ui'
-import { useWarikanStore } from '@/entities/warikan'
 import { AddExpenseSheet } from './AddExpenseSheet'
 
 const meta: Meta<typeof AddExpenseSheet> = {
@@ -36,10 +36,10 @@ export const Default: Story = {
 export const Editing: Story = {
   render: function EditingStory() {
     const [open, setOpen] = useState(true)
-    const members = useWarikanStore((s) => s.members)
+    const members = useWarikanStore((s) => getCurrentSession(s)?.members ?? [])
     const firstMember = members[0]
 
-    if (!firstMember) return <></>
+    if (!firstMember) return <div>メンバーがありません</div>
 
     return (
       <AddExpenseSheet

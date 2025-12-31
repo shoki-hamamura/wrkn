@@ -1,10 +1,9 @@
 'use client'
 
+import { X } from 'lucide-react'
 import { formatAmount } from '@/shared/lib'
-import type { CurrencyCode } from '@/shared/types'
+import type { CurrencyCode, Expense, Member } from '@/shared/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui'
-import type { Member } from '@/entities/member'
-import type { Expense } from '../model/types'
 
 export interface ExpenseCardProps {
   expense: Expense
@@ -25,12 +24,12 @@ export function ExpenseCard({
   const participantNames = getParticipantNames(expense, members)
 
   return (
-    <Card className="relative">
+    <Card className="relative border-l-4 border-l-accent shadow-sm">
       {onEdit && (
         <button
           type="button"
           onClick={onEdit}
-          className="absolute inset-0 z-0 cursor-pointer rounded-xl focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+          className="absolute inset-0 z-0 cursor-pointer rounded-2xl focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none"
           aria-label={`${expense.name}を編集`}
         />
       )}
@@ -39,17 +38,10 @@ export function ExpenseCard({
         <button
           type="button"
           onClick={onRemove}
-          className="absolute top-2 right-2 z-10 flex size-6 items-center justify-center rounded-full text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 dark:hover:bg-neutral-700 dark:hover:text-neutral-300"
+          className="absolute top-2 right-2 z-10 flex size-6 items-center justify-center rounded-full text-foreground-subtle hover:bg-surface-elevated hover:text-foreground-muted transition-colors"
           aria-label={`${expense.name}を削除`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="size-4"
-          >
-            <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-          </svg>
+          <X className="size-4" aria-hidden="true" />
         </button>
       )}
 
@@ -58,13 +50,11 @@ export function ExpenseCard({
       </CardHeader>
 
       <CardContent className="relative z-0">
-        <p className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+        <p className="text-lg font-semibold text-foreground">
           {formatAmount(expense.amount, currency)}
         </p>
-        <p className="text-neutral-600 dark:text-neutral-400">
-          立替: {payer?.name ?? '不明'}
-        </p>
-        <p className="text-neutral-600 dark:text-neutral-400">参加: {participantNames}</p>
+        <p className="text-foreground-muted">立替: {payer?.name ?? '不明'}</p>
+        <p className="text-foreground-muted">参加: {participantNames}</p>
       </CardContent>
     </Card>
   )

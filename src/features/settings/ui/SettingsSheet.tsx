@@ -1,9 +1,16 @@
 'use client'
 
+import { Monitor, Moon, Sun } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
+import {
+  useCurrency,
+  useRoundingUnit,
+  useWarikanActions,
+} from '@/entities/warikan'
 import { CURRENCIES } from '@/shared/constants'
 import type { CurrencyCode, RoundingUnit } from '@/shared/types'
-import { Button, RadioGroup, Sheet } from '@/shared/ui'
-import { useCurrency, useRoundingUnit, useWarikanActions } from '@/entities/warikan'
+import { Button, SegmentedControl, Sheet } from '@/shared/ui'
 
 export interface SettingsSheetProps {
   open: boolean
@@ -21,10 +28,22 @@ const roundingOptions: { value: string; label: string }[] = [
   { value: '100', label: '100円' },
 ]
 
+const themeOptions = [
+  { value: 'system', label: '自動', icon: Monitor },
+  { value: 'light', label: '明', icon: Sun },
+  { value: 'dark', label: '暗', icon: Moon },
+] as const
+
 export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
   const currency = useCurrency()
   const roundingUnit = useRoundingUnit()
   const { setCurrency, setRoundingUnit, reset } = useWarikanActions()
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleReset = () => {
     if (window.confirm('すべてのデータをリセットしますか？')) {
@@ -42,9 +61,25 @@ export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
 
         <div className="space-y-6">
           <div>
-            <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            <span className="mb-2 block text-sm font-medium text-foreground-muted">
+              テーマ
+            </span>
+            {mounted ? (
+              <SegmentedControl
+                name="theme"
+                value={theme ?? 'system'}
+                options={[...themeOptions]}
+                onChange={(value) => setTheme(value)}
+              />
+            ) : (
+              <div className="h-8" />
+            )}
+          </div>
+
+          <div>
+            <span className="mb-2 block text-sm font-medium text-foreground-muted">
               通貨
-            </label>
+            </span>
             <div className="grid grid-cols-2 gap-2">
               {currencyOptions.map((option) => (
                 <Button
@@ -61,24 +96,26 @@ export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            <span className="mb-2 block text-sm font-medium text-foreground-muted">
               端数の単位
-            </label>
-            <RadioGroup
+            </span>
+            <SegmentedControl
               name="roundingUnit"
               value={roundingUnit.toString()}
               options={roundingOptions}
-              onChange={(value) => setRoundingUnit(Number(value) as RoundingUnit)}
+              onChange={(value) =>
+                setRoundingUnit(Number(value) as RoundingUnit)
+              }
             />
-            <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+            <p className="mt-2 text-sm text-foreground-subtle">
               ※ 端数は切り上げされます（立替者が損しないように）
             </p>
           </div>
 
-          <div className="border-t border-neutral-200 pt-6 dark:border-neutral-700">
-            <label className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <div className="border-t border-border pt-6">
+            <span className="mb-2 block text-sm font-medium text-foreground-muted">
               データ
-            </label>
+            </span>
             <Button variant="danger" onClick={handleReset} className="w-full">
               データをリセット
             </Button>

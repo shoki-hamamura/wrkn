@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, type KeyboardEvent } from 'react'
+import { Plus } from 'lucide-react'
+import { type KeyboardEvent, useState } from 'react'
+import { useWarikanActions } from '@/entities/warikan'
 import { cn } from '@/shared/lib'
 import { Button, Input } from '@/shared/ui'
-import { useWarikanActions } from '@/entities/warikan'
 
 export interface AddMemberInputProps {
   className?: string
@@ -40,14 +41,7 @@ export function AddMemberInput({ className }: AddMemberInputProps) {
         className={cn('rounded-full', className)}
         aria-label="メンバーを追加"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-4"
-        >
-          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-        </svg>
+        <Plus className="size-4" aria-hidden="true" />
       </Button>
     )
   }
@@ -59,7 +53,7 @@ export function AddMemberInput({ className }: AddMemberInputProps) {
         onChange={setName}
         onKeyDown={handleKeyDown}
         placeholder="名前を入力"
-        className="h-8 w-32"
+        className="h-9 w-32"
         autoFocus
       />
       <Button size="sm" onClick={handleSubmit} disabled={!name.trim()}>
