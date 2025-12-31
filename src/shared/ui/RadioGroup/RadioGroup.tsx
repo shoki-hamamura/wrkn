@@ -1,14 +1,15 @@
 'use client'
 
 import type { ComponentProps } from 'react'
-import { cn } from '@/shared/lib'
+import { cn, focusRingStyles } from '@/shared/lib'
 
 export interface RadioOption<T extends string> {
   value: T
   label: string
 }
 
-export interface RadioGroupProps<T extends string> extends Omit<ComponentProps<'div'>, 'onChange'> {
+export interface RadioGroupProps<T extends string>
+  extends Omit<ComponentProps<'div'>, 'onChange'> {
   name: string
   value: T
   options: RadioOption<T>[]
@@ -36,7 +37,7 @@ export function RadioGroup<T extends string>({
           key={option.value}
           className={cn(
             'inline-flex cursor-pointer items-center gap-2',
-            disabled && 'cursor-not-allowed opacity-50'
+            disabled && 'cursor-not-allowed opacity-50',
           )}
         >
           <input
@@ -46,9 +47,13 @@ export function RadioGroup<T extends string>({
             checked={value === option.value}
             onChange={() => onChange(option.value)}
             disabled={disabled}
-            className="size-4 cursor-pointer border-neutral-300 text-emerald-600 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:cursor-not-allowed dark:border-neutral-600 dark:bg-neutral-800"
+            className={cn(
+              'size-4 cursor-pointer border-border text-primary accent-primary',
+              focusRingStyles,
+              'disabled:cursor-not-allowed',
+            )}
           />
-          <span className="text-sm text-neutral-900 dark:text-neutral-100">{option.label}</span>
+          <span className="text-sm text-foreground">{option.label}</span>
         </label>
       ))}
     </div>

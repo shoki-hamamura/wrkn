@@ -71,9 +71,21 @@ export const MemberSelection: Story = {
 
     return (
       <div className="space-y-2">
-        <Checkbox label="太郎" checked={selected.taro} onChange={() => toggle('taro')} />
-        <Checkbox label="花子" checked={selected.hanako} onChange={() => toggle('hanako')} />
-        <Checkbox label="次郎" checked={selected.jiro} onChange={() => toggle('jiro')} />
+        <Checkbox
+          label="太郎"
+          checked={selected.taro}
+          onChange={() => toggle('taro')}
+        />
+        <Checkbox
+          label="花子"
+          checked={selected.hanako}
+          onChange={() => toggle('hanako')}
+        />
+        <Checkbox
+          label="次郎"
+          checked={selected.jiro}
+          onChange={() => toggle('jiro')}
+        />
       </div>
     )
   },

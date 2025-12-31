@@ -19,7 +19,11 @@ function SheetRoot({ open, onOpenChange, children }: SheetProps) {
   return <Drawer.Root {...drawerProps}>{children}</Drawer.Root>
 }
 
-function SheetTrigger({ children, className, ...props }: ComponentProps<typeof Drawer.Trigger>) {
+function SheetTrigger({
+  children,
+  className,
+  ...props
+}: ComponentProps<typeof Drawer.Trigger>) {
   return (
     <Drawer.Trigger className={className} {...props}>
       {children}
@@ -31,7 +35,10 @@ function SheetPortal({ children }: { children: React.ReactNode }) {
   return <Drawer.Portal>{children}</Drawer.Portal>
 }
 
-function SheetOverlay({ className, ...props }: ComponentProps<typeof Drawer.Overlay>) {
+function SheetOverlay({
+  className,
+  ...props
+}: ComponentProps<typeof Drawer.Overlay>) {
   return (
     <Drawer.Overlay
       className={cn('fixed inset-0 z-50 bg-black/40', className)}
@@ -40,18 +47,22 @@ function SheetOverlay({ className, ...props }: ComponentProps<typeof Drawer.Over
   )
 }
 
-function SheetContent({ children, className, ...props }: ComponentProps<typeof Drawer.Content>) {
+function SheetContent({
+  children,
+  className,
+  ...props
+}: ComponentProps<typeof Drawer.Content>) {
   return (
     <SheetPortal>
       <SheetOverlay />
       <Drawer.Content
         className={cn(
-          'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto max-h-[96%] flex-col rounded-t-2xl bg-white dark:bg-neutral-900',
-          className
+          'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto max-h-[96%] flex-col rounded-t-3xl bg-surface',
+          className,
         )}
         {...props}
       >
-        <div className="mx-auto mt-4 h-1.5 w-12 shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-700" />
+        <div className="mx-auto mt-4 h-1.5 w-12 shrink-0 rounded-full bg-border" />
         <div className="flex-1 overflow-y-auto p-4">{children}</div>
       </Drawer.Content>
     </SheetPortal>
@@ -66,10 +77,14 @@ function SheetHeader({ children, className, ...props }: ComponentProps<'div'>) {
   )
 }
 
-function SheetTitle({ children, className, ...props }: ComponentProps<typeof Drawer.Title>) {
+function SheetTitle({
+  children,
+  className,
+  ...props
+}: ComponentProps<typeof Drawer.Title>) {
   return (
     <Drawer.Title
-      className={cn('text-lg font-semibold text-neutral-900 dark:text-neutral-100', className)}
+      className={cn('text-lg font-semibold text-foreground', className)}
       {...props}
     >
       {children}
@@ -84,7 +99,7 @@ function SheetDescription({
 }: ComponentProps<typeof Drawer.Description>) {
   return (
     <Drawer.Description
-      className={cn('text-sm text-neutral-500 dark:text-neutral-400', className)}
+      className={cn('text-sm text-foreground-muted', className)}
       {...props}
     >
       {children}
@@ -92,7 +107,11 @@ function SheetDescription({
   )
 }
 
-function SheetClose({ children, className, ...props }: ComponentProps<typeof Drawer.Close>) {
+function SheetClose({
+  children,
+  className,
+  ...props
+}: ComponentProps<typeof Drawer.Close>) {
   return (
     <Drawer.Close className={className} {...props}>
       {children}

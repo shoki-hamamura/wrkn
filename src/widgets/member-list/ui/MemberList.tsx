@@ -15,7 +15,7 @@ export function MemberList({ className }: MemberListProps) {
 
   return (
     <div className={className}>
-      <h2 className="mb-3 text-sm font-medium text-neutral-500 dark:text-neutral-400">
+      <h2 className="mb-3 text-sm font-medium text-foreground-muted">
         メンバー
       </h2>
       <div className="flex flex-wrap items-center gap-2">
@@ -34,7 +34,7 @@ export function MemberList({ className }: MemberListProps) {
         <AddMemberInput />
       </div>
       {members.length === 0 && (
-        <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+        <p className="mt-2 text-sm text-foreground-muted">
           メンバーを追加してください
         </p>
       )}

@@ -1,10 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/shared/ui'
-import { ExpenseCard, type Expense } from '@/entities/expense'
-import { useCurrency, useExpenses, useMembers, useWarikanActions } from '@/entities/warikan'
+import { type Expense, ExpenseCard } from '@/entities/expense'
+import {
+  useCurrency,
+  useExpenses,
+  useMembers,
+  useWarikanActions,
+} from '@/entities/warikan'
 import { AddExpenseSheet } from '@/features/add-expense'
+import { Button } from '@/shared/ui'
 
 export interface ExpenseListProps {
   className?: string
@@ -40,9 +45,7 @@ export function ExpenseList({ className }: ExpenseListProps) {
 
   return (
     <div className={className}>
-      <h2 className="mb-3 text-sm font-medium text-neutral-500 dark:text-neutral-400">
-        会計
-      </h2>
+      <h2 className="mb-3 text-sm font-medium text-foreground-muted">会計</h2>
 
       <div className="space-y-3">
         {expenses.map((expense) => (
@@ -57,15 +60,11 @@ export function ExpenseList({ className }: ExpenseListProps) {
         ))}
 
         {canAddExpense ? (
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={handleAdd}
-          >
+          <Button variant="outline" className="w-full" onClick={handleAdd}>
             + 会計を追加
           </Button>
         ) : (
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          <p className="text-sm text-foreground-muted">
             会計を追加するには、まずメンバーを追加してください
           </p>
         )}
