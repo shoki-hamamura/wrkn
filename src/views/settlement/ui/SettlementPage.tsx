@@ -1,5 +1,3 @@
-'use client'
-
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import { AppLogo, Button } from '@/shared/ui'
