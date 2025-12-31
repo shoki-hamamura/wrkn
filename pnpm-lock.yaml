@@ -26,9 +26,6 @@ importers:
       lucide-react:
         specifier: ^0.562.0
         version: 0.562.0(react@19.2.3)
-      lz-string:
-        specifier: ^1.5
-        version: 1.5.0
       next:
         specifier: 16.1.1
         version: 16.1.1(@babel/core@7.28.5)(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -138,9 +135,6 @@ importers:
       vitest:
         specifier: ^3
         version: 3.2.4(@types/node@22.19.3)(@vitest/browser@3.2.4)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.30.2)
-      zod:
-        specifier: ^3
-        version: 3.25.76
 
 packages:
 
