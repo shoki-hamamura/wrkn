@@ -30,7 +30,10 @@ export function calculateSettlements({
   return minimizeTransactions(balances, roundingUnit)
 }
 
-function calculateShares(members: Member[], expenses: Expense[]): Map<MemberId, number> {
+function calculateShares(
+  members: Member[],
+  expenses: Expense[],
+): Map<MemberId, number> {
   const shares = new Map<MemberId, number>()
 
   for (const member of members) {
@@ -57,7 +60,10 @@ function calculateShares(members: Member[], expenses: Expense[]): Map<MemberId, 
   return shares
 }
 
-function calculatePaidAmounts(members: Member[], expenses: Expense[]): Map<MemberId, number> {
+function calculatePaidAmounts(
+  members: Member[],
+  expenses: Expense[],
+): Map<MemberId, number> {
   const paid = new Map<MemberId, number>()
 
   for (const member of members) {
@@ -75,7 +81,7 @@ function calculatePaidAmounts(members: Member[], expenses: Expense[]): Map<Membe
 function calculateBalances(
   members: Member[],
   shares: Map<MemberId, number>,
-  paid: Map<MemberId, number>
+  paid: Map<MemberId, number>,
 ): Balance[] {
   return members.map((member) => ({
     memberId: member.id,
@@ -83,7 +89,10 @@ function calculateBalances(
   }))
 }
 
-function minimizeTransactions(balances: Balance[], roundingUnit: RoundingUnit): Settlement[] {
+function minimizeTransactions(
+  balances: Balance[],
+  roundingUnit: RoundingUnit,
+): Settlement[] {
   const settlements: Settlement[] = []
 
   const creditors = balances
@@ -133,7 +142,10 @@ export function calculateTotalAmount(expenses: Expense[]): number {
   return expenses.reduce((sum, e) => sum + e.amount, 0)
 }
 
-export function calculateAverageAmount(expenses: Expense[], memberCount: number): number {
+export function calculateAverageAmount(
+  expenses: Expense[],
+  memberCount: number,
+): number {
   if (memberCount === 0) return 0
   return calculateTotalAmount(expenses) / memberCount
 }

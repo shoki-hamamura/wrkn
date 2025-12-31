@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import type { Expense, ExpenseId, Member, MemberId } from '@/shared/types'
-import { calculateAverageAmount, calculateSettlements, calculateTotalAmount } from './calculate'
+import {
+  calculateAverageAmount,
+  calculateSettlements,
+  calculateTotalAmount,
+} from './calculate'
 
 const createMember = (id: string, name: string, bias = 1.0): Member => ({
   id: id as MemberId,
@@ -12,7 +16,7 @@ const createExpense = (
   name: string,
   amount: number,
   paidBy: string,
-  participants: string[] = []
+  participants: string[] = [],
 ): Expense => ({
   id: crypto.randomUUID() as ExpenseId,
   name,

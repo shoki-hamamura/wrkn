@@ -20,7 +20,7 @@ const createExpense = (
   name: string,
   amount: number,
   paidBy: MemberId,
-  participants: MemberId[] = []
+  participants: MemberId[] = [],
 ): Expense => ({
   id: crypto.randomUUID() as ExpenseId,
   name,
@@ -106,7 +106,9 @@ export const MultipleCards: Story = {
         onRemove={() => {}}
       />
       <ExpenseCard
-        expense={createExpense('タクシー', 2000, 'm3' as MemberId, ['m3' as MemberId])}
+        expense={createExpense('タクシー', 2000, 'm3' as MemberId, [
+          'm3' as MemberId,
+        ])}
         members={members}
         currency="JPY"
         onEdit={() => {}}

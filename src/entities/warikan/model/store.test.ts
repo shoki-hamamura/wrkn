@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import type { MemberId } from '@/shared/types'
 import { useWarikanStore } from './store'
 
 describe('useWarikanStore', () => {
@@ -18,7 +17,7 @@ describe('useWarikanStore', () => {
     })
 
     it('trims and limits name length', () => {
-      useWarikanStore.getState().addMember('  長い名前'.padEnd(60, 'あ') + '  ')
+      useWarikanStore.getState().addMember(`${'  長い名前'.padEnd(60, 'あ')}  `)
 
       const members = useWarikanStore.getState().members
       expect(members[0]?.name.length).toBeLessThanOrEqual(50)

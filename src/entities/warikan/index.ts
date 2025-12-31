@@ -1,6 +1,3 @@
-export { useWarikanStore } from './model/store'
-export type { WarikanActions, WarikanState, WarikanStore } from './model/store'
-
 export {
   useCurrency,
   useExpenses,
@@ -11,3 +8,5 @@ export {
   useTotalAmount,
   useWarikanActions,
 } from './model/selectors'
+export type { WarikanActions, WarikanState, WarikanStore } from './model/store'
+export { useWarikanStore } from './model/store'

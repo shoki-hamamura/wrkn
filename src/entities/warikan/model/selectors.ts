@@ -33,7 +33,7 @@ export const useSettlements = () => {
         expenses,
         roundingUnit,
       }),
-    [members, expenses, roundingUnit]
+    [members, expenses, roundingUnit],
   )
 }
 
@@ -49,5 +49,5 @@ export const useWarikanActions = () =>
       setCurrency: state.setCurrency,
       setRoundingUnit: state.setRoundingUnit,
       reset: state.reset,
-    }))
+    })),
   )

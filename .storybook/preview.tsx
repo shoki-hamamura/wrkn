@@ -1,6 +1,6 @@
-import { ThemeProvider } from 'next-themes'
-import type { Preview, ReactRenderer } from '@storybook/nextjs-vite'
 import type { DecoratorFunction } from '@storybook/csf'
+import type { Preview, ReactRenderer } from '@storybook/nextjs-vite'
+import { ThemeProvider } from 'next-themes'
 import '../src/app/globals.css'
 
 const withThemeProvider: DecoratorFunction<ReactRenderer> = (Story) => (
@@ -14,11 +14,11 @@ const preview: Preview = {
   parameters: {
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
+        color: /(background|color)$/i,
+        date: /Date$/i,
       },
     },
   },
-};
+}
 
-export default preview;
+export default preview

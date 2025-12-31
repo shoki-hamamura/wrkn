@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { MemberChip } from '@/entities/member'
 import type { MemberId } from '@/shared/types'
 import { Button } from '@/shared/ui'
-import { MemberChip } from '@/entities/member'
 import { BiasPopover } from './BiasPopover'
 
 const meta: Meta<typeof BiasPopover> = {

@@ -6,6 +6,12 @@ import { immer } from 'zustand/middleware/immer'
 import {
   DEFAULT_CURRENCY,
   DEFAULT_ROUNDING_UNIT,
+  MAX_BIAS,
+  MAX_EXPENSE_NAME_LENGTH,
+  MAX_EXPENSES,
+  MAX_MEMBER_NAME_LENGTH,
+  MAX_MEMBERS,
+  MIN_BIAS,
 } from '@/shared/constants'
 import type {
   CurrencyCode,
@@ -35,7 +41,10 @@ export interface WarikanActions {
 
   addExpense: (expense: Omit<Expense, 'id' | 'createdAt'>) => void
   removeExpense: (id: ExpenseId) => void
-  updateExpense: (id: ExpenseId, updates: Partial<Omit<Expense, 'id' | 'createdAt'>>) => void
+  updateExpense: (
+    id: ExpenseId,
+    updates: Partial<Omit<Expense, 'id' | 'createdAt'>>,
+  ) => void
 
   setCurrency: (currency: CurrencyCode) => void
   setRoundingUnit: (unit: RoundingUnit) => void
@@ -62,11 +71,13 @@ export const useWarikanStore = create<WarikanStore>()(
 
         addMember: (name) =>
           set((state) => {
-            const sanitizedName = name.trim().slice(0, 50)
+            if (state.members.length >= MAX_MEMBERS) return
+
+            const sanitizedName = name.trim().slice(0, MAX_MEMBER_NAME_LENGTH)
             if (!sanitizedName) return
 
             const isDuplicate = state.members.some(
-              (m) => m.name.toLowerCase() === sanitizedName.toLowerCase()
+              (m) => m.name.toLowerCase() === sanitizedName.toLowerCase(),
             )
             if (isDuplicate) return
 
@@ -82,7 +93,9 @@ export const useWarikanStore = create<WarikanStore>()(
             state.members = state.members.filter((m) => m.id !== id)
 
             for (const expense of state.expenses) {
-              expense.participants = expense.participants.filter((p) => p !== id)
+              expense.participants = expense.participants.filter(
+                (p) => p !== id,
+              )
 
               if (expense.paidBy === id) {
                 const firstMember = state.members[0]
@@ -102,7 +115,7 @@ export const useWarikanStore = create<WarikanStore>()(
           set((state) => {
             const member = state.members.find((m) => m.id === id)
             if (member) {
-              member.bias = Math.max(0.1, Math.min(3.0, bias))
+              member.bias = Math.max(MIN_BIAS, Math.min(MAX_BIAS, bias))
             }
           }),
 
@@ -143,8 +156,8 @@ export const useWarikanStore = create<WarikanStore>()(
       {
         name: 'nakayoshi-warikan',
         version: 1,
-      }
+      },
     ),
-    { name: 'WarikanStore' }
-  )
+    { name: 'WarikanStore' },
+  ),
 )

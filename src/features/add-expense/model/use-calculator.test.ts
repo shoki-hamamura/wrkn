@@ -107,7 +107,9 @@ describe('useCalculator', () => {
       }
     })
 
-    expect(result.current.numericValue.toString().length).toBeLessThanOrEqual(10)
+    expect(result.current.numericValue.toString().length).toBeLessThanOrEqual(
+      10,
+    )
   })
 
   it('formats display value with commas', () => {

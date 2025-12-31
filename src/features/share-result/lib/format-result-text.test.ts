@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import type { MemberId } from '@/shared/types'
 import type { Member } from '@/entities/member'
 import type { Settlement } from '@/entities/settlement'
+import type { MemberId } from '@/shared/types'
 import { formatResultText } from './format-result-text'
 
 describe('formatResultText', () => {
