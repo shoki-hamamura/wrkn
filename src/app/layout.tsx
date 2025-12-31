@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist_Mono, Noto_Sans_JP } from 'next/font/google'
+import { headers } from 'next/headers'
 import { AppLayout } from './AppLayout'
 import { Providers } from './providers'
 import './globals.css'
@@ -38,17 +39,19 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const nonce = (await headers()).get('x-nonce') ?? ''
+
   return (
     <html lang="ja" suppressHydrationWarning>
       <body
         className={`${notoSansJP.className} ${geistMono.variable} antialiased`}
       >
-        <Providers>
+        <Providers nonce={nonce}>
           <AppLayout>{children}</AppLayout>
         </Providers>
         <Analytics />
