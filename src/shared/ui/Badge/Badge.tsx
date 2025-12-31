@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react'
 import { cn } from '@/shared/lib'
 
-export type BadgeVariant = 'default' | 'secondary' | 'outline'
+export type BadgeVariant = 'default' | 'secondary' | 'accent' | 'outline'
 
 export interface BadgeProps extends ComponentProps<'span'> {
   variant?: BadgeVariant
@@ -10,6 +10,7 @@ export interface BadgeProps extends ComponentProps<'span'> {
 const variantStyles: Record<BadgeVariant, string> = {
   default: 'bg-primary/15 text-primary',
   secondary: 'bg-surface-elevated text-foreground-muted',
+  accent: 'bg-accent/15 text-accent',
   outline: 'border border-border text-foreground-muted',
 }
 

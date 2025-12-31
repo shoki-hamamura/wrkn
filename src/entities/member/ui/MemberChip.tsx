@@ -49,7 +49,10 @@ export function MemberChip({
       <span className="text-sm font-medium text-foreground">{member.name}</span>
 
       {showBias && hasBias && (
-        <Badge variant="default" className="ml-1">
+        <Badge
+          variant={member.bias < 1.0 ? 'accent' : 'default'}
+          className="ml-1"
+        >
           {member.bias}x
         </Badge>
       )}
