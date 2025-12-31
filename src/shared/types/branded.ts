@@ -5,6 +5,9 @@ export type ExpenseId = string & { readonly __brand: 'ExpenseId' }
 /** グループを一意に識別するID */
 export type GroupId = string & { readonly __brand: 'GroupId' }
 
+/** セッションを一意に識別するID */
+export type SessionId = string & { readonly __brand: 'SessionId' }
+
 /** 文字列から MemberId を生成 */
 export function createMemberId(id: string): MemberId {
   return id as MemberId
@@ -33,4 +36,14 @@ export function generateExpenseId(): ExpenseId {
 /** 新規 GroupId を自動生成 */
 export function generateGroupId(): GroupId {
   return crypto.randomUUID() as GroupId
+}
+
+/** 文字列から SessionId を生成 */
+export function createSessionId(id: string): SessionId {
+  return id as SessionId
+}
+
+/** 新規 SessionId を自動生成 */
+export function generateSessionId(): SessionId {
+  return crypto.randomUUID() as SessionId
 }

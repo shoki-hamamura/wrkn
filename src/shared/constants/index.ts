@@ -1,9 +1,13 @@
 export {
+  DEFAULT_SESSION_NAME,
+  MAX_SESSION_NAME_LENGTH,
+  MAX_SESSIONS,
+} from '@/shared/types/session'
+export {
   CURRENCIES,
   DEFAULT_CURRENCY,
   DEFAULT_ROUNDING_UNIT,
 } from './currencies'
-
 export {
   MAX_AMOUNT_DIGITS,
   MAX_BIAS,

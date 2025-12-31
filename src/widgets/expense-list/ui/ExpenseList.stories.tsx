@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { useWarikanStore } from '@/entities/warikan'
+import { getCurrentSession, useWarikanStore } from '@/entities/warikan'
 import { ExpenseList } from './ExpenseList'
 
 const meta: Meta<typeof ExpenseList> = {
@@ -38,7 +38,8 @@ export const WithExpenses: Story = {
       useWarikanStore.getState().addMember('花子')
       useWarikanStore.getState().addMember('次郎')
 
-      const members = useWarikanStore.getState().members
+      const members =
+        getCurrentSession(useWarikanStore.getState())?.members ?? []
       if (members[0] && members[1]) {
         useWarikanStore.getState().addExpense({
           name: '1次会',

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { useWarikanStore } from '@/entities/warikan'
+import { getCurrentSession, useWarikanStore } from '@/entities/warikan'
 import { HomePage } from './HomePage'
 
 const meta: Meta<typeof HomePage> = {
@@ -32,7 +32,8 @@ export const WithData: Story = {
       useWarikanStore.getState().addMember('花子')
       useWarikanStore.getState().addMember('次郎')
 
-      const members = useWarikanStore.getState().members
+      const members =
+        getCurrentSession(useWarikanStore.getState())?.members ?? []
       if (members[0] && members[1]) {
         useWarikanStore.getState().updateMemberBias(members[1].id, 1.5)
         useWarikanStore.getState().addExpense({
