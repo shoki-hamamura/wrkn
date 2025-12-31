@@ -14,6 +14,11 @@ export type { PopoverProps } from './Popover'
 export { Popover, PopoverHeader, PopoverTitle } from './Popover'
 export type { RadioGroupProps, RadioOption } from './RadioGroup'
 export { RadioGroup } from './RadioGroup'
+export type {
+  SegmentedControlOption,
+  SegmentedControlProps,
+} from './SegmentedControl'
+export { SegmentedControl } from './SegmentedControl'
 export type { SheetProps } from './Sheet'
 export { Sheet } from './Sheet'
 export type { SliderProps } from './Slider'

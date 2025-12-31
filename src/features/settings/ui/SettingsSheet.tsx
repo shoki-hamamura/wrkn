@@ -1,5 +1,6 @@
 'use client'
 
+import { Monitor, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import {
@@ -9,7 +10,7 @@ import {
 } from '@/entities/warikan'
 import { CURRENCIES } from '@/shared/constants'
 import type { CurrencyCode, RoundingUnit } from '@/shared/types'
-import { Button, RadioGroup, Sheet } from '@/shared/ui'
+import { Button, SegmentedControl, Sheet } from '@/shared/ui'
 
 export interface SettingsSheetProps {
   open: boolean
@@ -27,11 +28,11 @@ const roundingOptions: { value: string; label: string }[] = [
   { value: '100', label: '100円' },
 ]
 
-const themeOptions: { value: string; label: string }[] = [
-  { value: 'system', label: 'システム設定' },
-  { value: 'light', label: 'ライト' },
-  { value: 'dark', label: 'ダーク' },
-]
+const themeOptions = [
+  { value: 'system', label: '自動', icon: Monitor },
+  { value: 'light', label: '明', icon: Sun },
+  { value: 'dark', label: '暗', icon: Moon },
+] as const
 
 export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
   const currency = useCurrency()
@@ -64,14 +65,14 @@ export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
               テーマ
             </span>
             {mounted ? (
-              <RadioGroup
+              <SegmentedControl
                 name="theme"
                 value={theme ?? 'system'}
-                options={themeOptions}
+                options={[...themeOptions]}
                 onChange={(value) => setTheme(value)}
               />
             ) : (
-              <div className="h-6" />
+              <div className="h-8" />
             )}
           </div>
 
@@ -98,7 +99,7 @@ export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
             <span className="mb-2 block text-sm font-medium text-foreground-muted">
               端数の単位
             </span>
-            <RadioGroup
+            <SegmentedControl
               name="roundingUnit"
               value={roundingUnit.toString()}
               options={roundingOptions}
