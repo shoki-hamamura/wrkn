@@ -64,12 +64,12 @@ export function SettlementResult({ className }: SettlementResultProps) {
             {groupSettlements.map((gs) => (
               <div
                 key={gs.groupId}
-                className="flex items-center justify-between rounded-lg border border-border bg-surface p-3"
+                className="flex items-center justify-between rounded-lg border-l-4 border-l-secondary bg-surface p-3 shadow-sm"
               >
-                <span className="text-sm font-medium text-foreground">
+                <span className="text-sm font-bold text-foreground">
                   {gs.groupName}
                 </span>
-                <span className="font-bold text-foreground">
+                <span className="text-lg font-bold text-foreground">
                   {formatAmount(gs.perPersonAmount, currency)}/人
                 </span>
               </div>

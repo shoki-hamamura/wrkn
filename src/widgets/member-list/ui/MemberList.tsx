@@ -1,5 +1,6 @@
 'use client'
 
+import { Users } from 'lucide-react'
 import { MemberChip } from '@/entities/member'
 import { useMembers, useWarikanActions } from '@/entities/warikan'
 import { AddMemberInput } from '@/features/add-member'
@@ -15,7 +16,8 @@ export function MemberList({ className }: MemberListProps) {
 
   return (
     <div className={className}>
-      <h2 className="mb-3 text-sm font-medium text-foreground-muted">
+      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground-muted">
+        <Users className="size-4 text-primary" aria-hidden="true" />
         メンバー（立替者）
       </h2>
       <div className="flex flex-wrap items-center gap-2">

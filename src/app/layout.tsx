@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist_Mono, Noto_Sans_JP } from 'next/font/google'
+import { AppLayout } from './AppLayout'
 import { Providers } from './providers'
 import './globals.css'
 
@@ -45,9 +46,11 @@ export default function RootLayout({
   return (
     <html lang="ja" suppressHydrationWarning>
       <body
-        className={`${notoSansJP.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${notoSansJP.className} ${geistMono.variable} antialiased`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <AppLayout>{children}</AppLayout>
+        </Providers>
       </body>
     </html>
   )

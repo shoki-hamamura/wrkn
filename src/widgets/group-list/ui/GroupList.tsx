@@ -1,5 +1,6 @@
 'use client'
 
+import { UsersRound } from 'lucide-react'
 import { GroupChip } from '@/entities/group'
 import { useGroups, useWarikanActions } from '@/entities/warikan'
 import { AddGroupInput } from '@/features/add-group'
@@ -15,7 +16,8 @@ export function GroupList({ className }: GroupListProps) {
 
   return (
     <div className={className}>
-      <h2 className="mb-3 text-sm font-medium text-foreground-muted">
+      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground-muted">
+        <UsersRound className="size-4 text-secondary" aria-hidden="true" />
         グループ
       </h2>
       <div className="flex flex-wrap items-center gap-2">

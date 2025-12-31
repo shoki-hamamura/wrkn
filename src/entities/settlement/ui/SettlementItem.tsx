@@ -19,20 +19,20 @@ export function SettlementItem({
   const toMember = members.find((m) => m.id === settlement.to)
 
   return (
-    <div className="flex items-center justify-between rounded-xl border border-border bg-surface p-4">
+    <div className="flex items-center justify-between rounded-lg border-l-4 border-l-primary bg-surface p-4 shadow-sm">
       <div className="flex items-center gap-2">
-        <span className="font-medium text-foreground">
+        <span className="font-bold text-foreground">
           {fromMember?.name ?? '不明'}
         </span>
         <ArrowRight
           className="size-5 text-foreground-subtle"
           aria-hidden="true"
         />
-        <span className="font-medium text-foreground">
+        <span className="font-bold text-foreground">
           {toMember?.name ?? '不明'}
         </span>
       </div>
-      <span className="text-lg font-semibold text-primary">
+      <span className="text-xl font-bold text-primary">
         {formatAmount(settlement.amount, currency)}
       </span>
     </div>

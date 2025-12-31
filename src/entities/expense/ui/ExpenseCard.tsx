@@ -24,7 +24,7 @@ export function ExpenseCard({
   const participantNames = getParticipantNames(expense, members)
 
   return (
-    <Card className="relative">
+    <Card className="relative border-l-4 border-l-accent shadow-sm">
       {onEdit && (
         <button
           type="button"

@@ -38,11 +38,10 @@ export function AddGroupInput({ className }: AddGroupInputProps) {
         variant="outline"
         size="sm"
         onClick={() => setIsOpen(true)}
-        className={cn('gap-1 rounded-full', className)}
+        className={cn('size-9 rounded-full p-0', className)}
         aria-label="グループを追加"
       >
         <Plus className="size-4" aria-hidden="true" />
-        <span>グループ</span>
       </Button>
     )
   }

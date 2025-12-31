@@ -1,5 +1,6 @@
 'use client'
 
+import { Receipt } from 'lucide-react'
 import { useState } from 'react'
 import { type Expense, ExpenseCard } from '@/entities/expense'
 import {
@@ -45,7 +46,10 @@ export function ExpenseList({ className }: ExpenseListProps) {
 
   return (
     <div className={className}>
-      <h2 className="mb-3 text-sm font-medium text-foreground-muted">会計</h2>
+      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground-muted">
+        <Receipt className="size-4 text-accent" aria-hidden="true" />
+        会計
+      </h2>
 
       <div className="space-y-3">
         {expenses.map((expense) => (
@@ -60,7 +64,11 @@ export function ExpenseList({ className }: ExpenseListProps) {
         ))}
 
         {canAddExpense ? (
-          <Button variant="outline" className="w-full" onClick={handleAdd}>
+          <Button
+            variant="outline"
+            className="w-full font-semibold"
+            onClick={handleAdd}
+          >
             + 会計を追加
           </Button>
         ) : (
