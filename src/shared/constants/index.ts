@@ -5,11 +5,11 @@ export {
 } from './currencies'
 
 export {
-  MAX_MEMBERS,
+  MAX_AMOUNT_DIGITS,
+  MAX_BIAS,
+  MAX_EXPENSE_NAME_LENGTH,
   MAX_EXPENSES,
   MAX_MEMBER_NAME_LENGTH,
-  MAX_EXPENSE_NAME_LENGTH,
-  MAX_AMOUNT_DIGITS,
+  MAX_MEMBERS,
   MIN_BIAS,
-  MAX_BIAS,
 } from './limits'

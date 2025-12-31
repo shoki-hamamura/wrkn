@@ -121,8 +121,15 @@ export const useWarikanStore = create<WarikanStore>()(
 
         addExpense: (expense) =>
           set((state) => {
+            if (state.expenses.length >= MAX_EXPENSES) return
+
+            const sanitizedName = expense.name
+              .trim()
+              .slice(0, MAX_EXPENSE_NAME_LENGTH)
+
             state.expenses.push({
               ...expense,
+              name: sanitizedName || '会計',
               id: generateExpenseId(),
               createdAt: Date.now(),
             })

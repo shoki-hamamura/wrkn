@@ -237,3 +237,143 @@ describe('calculateAverageAmount', () => {
     expect(calculateAverageAmount(expenses, 3)).toBe(1000)
   })
 })
+
+describe('large scale calculations', () => {
+  it('handles 50 members correctly', () => {
+    const members = Array.from({ length: 50 }, (_, i) =>
+      createMember(`m${i}`, `Member${i}`),
+    )
+    const expenses = [createExpense('Dinner', 50000, 'm0')]
+
+    const result = calculateSettlements({
+      members,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.length).toBeLessThanOrEqual(49)
+    const totalSettled = result.reduce((sum, s) => sum + s.amount, 0)
+    expect(totalSettled).toBeGreaterThan(0)
+  })
+
+  it('handles 50 expenses correctly', () => {
+    const members = [createMember('m1', 'Taro'), createMember('m2', 'Hanako')]
+    const expenses = Array.from({ length: 50 }, (_, i) =>
+      createExpense(`Expense${i}`, 100, i % 2 === 0 ? 'm1' : 'm2'),
+    )
+
+    const result = calculateSettlements({
+      members,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.length).toBeLessThanOrEqual(1)
+  })
+
+  it('handles 50 members with 50 expenses', () => {
+    const members = Array.from({ length: 50 }, (_, i) =>
+      createMember(`m${i}`, `Member${i}`),
+    )
+    const expenses = Array.from({ length: 50 }, (_, i) =>
+      createExpense(`Expense${i}`, 1000, `m${i % 50}`),
+    )
+
+    const result = calculateSettlements({
+      members,
+      expenses,
+      roundingUnit: 10,
+    })
+
+    result.forEach((settlement) => {
+      expect(settlement.amount % 10).toBe(0)
+    })
+  })
+})
+
+describe('floating point precision', () => {
+  it('handles fractional bias values correctly', () => {
+    const members = [
+      createMember('m1', 'Taro', 1.0),
+      createMember('m2', 'Hanako', 1.5),
+      createMember('m3', 'Jiro', 0.8),
+    ]
+    const expenses = [createExpense('Test', 10000, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    result.forEach((settlement) => {
+      expect(Number.isInteger(settlement.amount)).toBe(true)
+      expect(Number.isFinite(settlement.amount)).toBe(true)
+    })
+  })
+
+  it('handles small bias values without producing NaN or Infinity', () => {
+    const members = [
+      createMember('m1', 'Taro', 0.1),
+      createMember('m2', 'Hanako', 0.2),
+    ]
+    const expenses = [createExpense('Test', 3000, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.every((s) => Number.isFinite(s.amount))).toBe(true)
+  })
+
+  it('produces consistent results across multiple calculations', () => {
+    const members = [
+      createMember('m1', 'Taro'),
+      createMember('m2', 'Hanako'),
+      createMember('m3', 'Jiro'),
+    ]
+    const expenses = [createExpense('Test', 1000, 'm1')]
+
+    const results: number[] = []
+    for (let i = 0; i < 10; i++) {
+      const result = calculateSettlements({
+        members,
+        expenses,
+        roundingUnit: 1,
+      })
+      results.push(result.reduce((sum, s) => sum + s.amount, 0))
+    }
+
+    expect(new Set(results).size).toBe(1)
+  })
+
+  it('handles very large amounts correctly', () => {
+    const members = [createMember('m1', 'Taro'), createMember('m2', 'Hanako')]
+    const expenses = [createExpense('Test', 9999999999, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result).toHaveLength(1)
+    expect(result[0]?.amount).toBeGreaterThan(0)
+    expect(Number.isFinite(result[0]?.amount)).toBe(true)
+  })
+
+  it('handles 1 yen amounts correctly', () => {
+    const members = [createMember('m1', 'Taro'), createMember('m2', 'Hanako')]
+    const expenses = [createExpense('Test', 1, 'm1')]
+
+    const result = calculateSettlements({
+      members,
+      expenses,
+      roundingUnit: 1,
+    })
+
+    expect(result.length).toBeLessThanOrEqual(1)
+  })
+})
