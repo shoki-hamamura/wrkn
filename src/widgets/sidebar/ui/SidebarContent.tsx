@@ -7,9 +7,8 @@ import { SessionList } from './SessionList'
 export function SidebarContent() {
   return (
     <div className="flex h-full flex-col bg-surface">
-      <div className="flex h-16 shrink-0 items-center gap-2 px-4">
+      <div className="flex h-16 shrink-0 items-center px-4">
         <AppLogo size="sm" />
-        <span className="text-lg font-bold">なかよしわりかん</span>
       </div>
 
       <div className="flex-1 overflow-y-auto py-2">
