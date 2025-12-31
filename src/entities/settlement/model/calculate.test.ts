@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import type { ExpenseId, MemberId } from '@/shared/types'
-import type { Member } from '@/entities/member'
-import type { Expense } from '@/entities/expense'
+import type { Expense, ExpenseId, Member, MemberId } from '@/shared/types'
 import { calculateAverageAmount, calculateSettlements, calculateTotalAmount } from './calculate'
 
 const createMember = (id: string, name: string, bias = 1.0): Member => ({

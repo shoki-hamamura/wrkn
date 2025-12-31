@@ -1,10 +1,8 @@
 'use client'
 
 import { formatAmount } from '@/shared/lib'
-import type { CurrencyCode } from '@/shared/types'
+import type { CurrencyCode, Expense, Member } from '@/shared/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui'
-import type { Member } from '@/entities/member'
-import type { Expense } from '../model/types'
 
 export interface ExpenseCardProps {
   expense: Expense

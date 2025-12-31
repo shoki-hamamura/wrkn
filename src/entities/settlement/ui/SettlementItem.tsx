@@ -1,9 +1,7 @@
 'use client'
 
 import { formatAmount } from '@/shared/lib'
-import type { CurrencyCode } from '@/shared/types'
-import type { Member } from '@/entities/member'
-import type { Settlement } from '../model/types'
+import type { CurrencyCode, Member, Settlement } from '@/shared/types'
 
 export interface SettlementItemProps {
   settlement: Settlement

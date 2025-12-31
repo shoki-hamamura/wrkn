@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import type { MemberId } from '@/shared/types'
-import type { Member } from '@/entities/member'
+import type { Member, MemberId } from '@/shared/types'
 import { SettlementItem } from './SettlementItem'
 
 const meta: Meta<typeof SettlementItem> = {

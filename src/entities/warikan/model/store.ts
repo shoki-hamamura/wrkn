@@ -6,17 +6,21 @@ import { immer } from 'zustand/middleware/immer'
 import {
   DEFAULT_CURRENCY,
   DEFAULT_ROUNDING_UNIT,
-} from '@/shared/constants/currencies'
+} from '@/shared/constants'
 import type {
   CurrencyCode,
+  Expense,
   ExpenseId,
+  Member,
   MemberId,
   RoundingUnit,
   Settings,
 } from '@/shared/types'
-import { generateExpenseId, generateMemberId } from '@/shared/types'
-import { DEFAULT_BIAS, type Member } from '@/entities/member'
-import type { Expense } from '@/entities/expense'
+import {
+  DEFAULT_BIAS,
+  generateExpenseId,
+  generateMemberId,
+} from '@/shared/types'
 
 export interface WarikanState {
   members: Member[]

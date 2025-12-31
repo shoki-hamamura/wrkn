@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react'
 import { useShallow } from 'zustand/shallow'
-import { calculateSettlements, calculateTotalAmount } from '@/entities/settlement'
+import { calculateSettlements, calculateTotalAmount } from '@/shared/lib'
 import { useWarikanStore } from './store'
 
 export const useMembers = () => useWarikanStore((state) => state.members)

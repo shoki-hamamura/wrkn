@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import type { ExpenseId, MemberId } from '@/shared/types'
-import type { Member } from '@/entities/member'
-import type { Expense } from '../model/types'
+import type { Expense, ExpenseId, Member, MemberId } from '@/shared/types'
 import { ExpenseCard } from './ExpenseCard'
 
 const meta: Meta<typeof ExpenseCard> = {
