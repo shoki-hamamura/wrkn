@@ -12,6 +12,7 @@ import { formatAmount } from '@/shared/lib'
 import type { MemberId } from '@/shared/types'
 import { Button, Checkbox, Input, SegmentedControl, Sheet } from '@/shared/ui'
 import { useCalculator } from '../model/use-calculator'
+import { useCalculatorKeyboard } from '../model/use-calculator-keyboard'
 import { CalculatorKeypad } from './CalculatorKeypad'
 
 export interface AddExpenseSheetProps {
@@ -63,6 +64,8 @@ function AddExpenseForm({ editingExpense, onClose }: AddExpenseFormProps) {
   >(() => new Set(editingExpense?.participants ?? []))
 
   const calculator = useCalculator(editingExpense?.amount ?? 0)
+
+  useCalculatorKeyboard({ onKey: calculator.handleKey })
 
   const handleSubmit = () => {
     if (!paidBy || calculator.numericValue <= 0) return

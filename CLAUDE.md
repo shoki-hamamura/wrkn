@@ -29,6 +29,11 @@ npx tsc --noEmit      # Type check
 # Build
 pnpm build            # Production build
 
+# E2E Testing (Playwright)
+pnpm e2e              # Run E2E tests
+pnpm e2e:ui           # Run with interactive UI
+pnpm e2e:headed       # Run in headed browser
+
 # Storybook
 pnpm storybook        # Start Storybook at port 6006
 pnpm build-storybook  # Build Storybook
@@ -40,17 +45,17 @@ pnpm chromatic        # Visual regression test
 ```
 src/
 ├── app/        # Next.js App Router entry, globals.css
-├── pages/      # Page components (FSD layer)
+├── views/      # Page-level view compositions
 ├── widgets/    # Large independent UI blocks
 ├── features/   # Business actions (add-member, add-expense, etc.)
-├── entities/   # Business entities (member, expense, settlement)
+├── entities/   # Business entities (member, expense, settlement, warikan)
 └── shared/     # Shared utilities, UI components, types
 ```
 
 ### Layer Dependency Rule
 
-```
-app → pages → widgets → features → entities → shared
+```text
+app → views → widgets → features → entities → shared
 ```
 
 Only import from lower layers. Upper-layer imports are **forbidden** and checked by Steiger.
@@ -77,6 +82,23 @@ Each slice contains:
 - Props types: `ComponentNameProps`
 - Tests: `*.test.ts` files co-located with source
 - Stories: `*.stories.tsx` files co-located with components
+
+## State Management
+
+Central Zustand store at `src/entities/warikan/model/store.ts`:
+- Persisted to localStorage with key `nakayoshi-warikan`
+- Uses immer middleware for immutable updates
+- Multi-session support with migration from older schema (version 3)
+- Access via `useWarikanStore` hook
+
+## Domain Model
+
+Core types in `src/shared/types/`:
+- `Session` - Contains members, groups, expenses, settings
+- `Member` - Individual participant with bias adjustment (0.1-2.0)
+- `ParticipantGroup` - Batch participants (e.g., "友人5人")
+- `Expense` - Payment record with payer and participants
+- `Settlement` - Calculated transfer (who pays whom)
 
 ## Pre-commit Hooks (Lefthook)
 

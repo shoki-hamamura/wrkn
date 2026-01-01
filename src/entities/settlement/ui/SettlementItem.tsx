@@ -1,4 +1,3 @@
-import { ArrowRight } from 'lucide-react'
 import { formatAmount } from '@/shared/lib'
 import type { CurrencyCode, Member, Settlement } from '@/shared/types'
 
@@ -18,18 +17,12 @@ export function SettlementItem({
 
   return (
     <div className="flex items-center justify-between rounded-lg border-l-4 border-l-primary bg-surface p-4 shadow-sm">
-      <div className="flex items-center gap-2">
-        <span className="font-bold text-foreground">
-          {fromMember?.name ?? '不明'}
-        </span>
-        <ArrowRight
-          className="size-5 text-foreground-subtle"
-          aria-hidden="true"
-        />
-        <span className="font-bold text-foreground">
-          {toMember?.name ?? '不明'}
-        </span>
-      </div>
+      <p className="text-foreground">
+        <span className="font-bold">{fromMember?.name ?? '不明'}</span>
+        <span className="text-foreground-subtle"> さんから </span>
+        <span className="font-bold">{toMember?.name ?? '不明'}</span>
+        <span className="text-foreground-subtle"> さんへ</span>
+      </p>
       <span className="text-xl font-bold text-primary">
         {formatAmount(settlement.amount, currency)}
       </span>

@@ -1,6 +1,19 @@
 export { cn } from './cn'
 export { formatAmount, parseAmount } from './currency'
 export { formatRelativeDate } from './date'
+export { canVibrate, vibrate } from './haptics'
+export type {
+  KeyboardShortcut,
+  UsePwaInstallResult,
+} from './hooks'
+export {
+  SHORTCUT_KEYS,
+  useIsDesktop,
+  useKeyboardShortcuts,
+  useMediaQuery,
+  usePwaInstall,
+  useSidebar,
+} from './hooks'
 export { ceilToUnit, floorToUnit, roundToUnit } from './rounding'
 export type {
   CalculateSettlementsInput,
@@ -12,5 +25,3 @@ export {
   calculateTotalAmount,
 } from './settlement'
 export { disabledStyles, focusRingStyles, transitionStyles } from './styles'
-export { useIsDesktop, useMediaQuery } from './useMediaQuery'
-export { useSidebar } from './useSidebar'

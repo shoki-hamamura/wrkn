@@ -2,10 +2,12 @@
 
 import { CircleHelp, Settings } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useExpenses, useMembers } from '@/entities/warikan'
 import { HelpSheet } from '@/features/help'
 import { SettingsSheet } from '@/features/settings'
+import type { KeyboardShortcut } from '@/shared/lib'
+import { useKeyboardShortcuts } from '@/shared/lib'
 import { Button } from '@/shared/ui'
 import { ExpenseList } from '@/widgets/expense-list'
 import { GroupList } from '@/widgets/group-list'
@@ -16,6 +18,26 @@ export function HomePage() {
   const [helpOpen, setHelpOpen] = useState(false)
   const members = useMembers()
   const expenses = useExpenses()
+
+  const shortcuts = useMemo<KeyboardShortcut[]>(
+    () => [
+      {
+        key: '?',
+        shift: true,
+        action: () => setHelpOpen(true),
+        description: 'ヘルプを開く',
+      },
+      {
+        key: ',',
+        ctrlOrMeta: true,
+        action: () => setSettingsOpen(true),
+        description: '設定を開く',
+      },
+    ],
+    [],
+  )
+
+  useKeyboardShortcuts(shortcuts)
 
   const canShowResult = members.length > 0 && expenses.length > 0
 

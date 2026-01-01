@@ -1,6 +1,6 @@
 'use client'
 
-import { Monitor, Moon, Sun } from 'lucide-react'
+import { Download, Monitor, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import {
@@ -9,6 +9,7 @@ import {
   useWarikanActions,
 } from '@/entities/warikan'
 import { CURRENCIES } from '@/shared/constants'
+import { usePwaInstall } from '@/shared/lib'
 import type { CurrencyCode, RoundingUnit } from '@/shared/types'
 import { Button, SegmentedControl, Sheet } from '@/shared/ui'
 
@@ -39,11 +40,16 @@ export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
   const roundingUnit = useRoundingUnit()
   const { setCurrency, setRoundingUnit, reset } = useWarikanActions()
   const { theme, setTheme } = useTheme()
+  const { canInstall, install } = usePwaInstall()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const handleInstall = async () => {
+    await install()
+  }
 
   const handleReset = () => {
     if (window.confirm('すべてのデータをリセットしますか？')) {
@@ -111,6 +117,22 @@ export function SettingsSheet({ open, onOpenChange }: SettingsSheetProps) {
               ※ 端数は切り上げされます（立替者が損しないように）
             </p>
           </div>
+
+          {canInstall && (
+            <div className="border-t border-border pt-6">
+              <span className="mb-2 block text-sm font-medium text-foreground-muted">
+                アプリ
+              </span>
+              <Button
+                variant="secondary"
+                onClick={handleInstall}
+                className="w-full"
+              >
+                <Download className="mr-2 size-4" aria-hidden="true" />
+                ホーム画面に追加
+              </Button>
+            </div>
+          )}
 
           <div className="border-t border-border pt-6">
             <span className="mb-2 block text-sm font-medium text-foreground-muted">
