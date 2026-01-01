@@ -5,10 +5,11 @@ import {
   useCurrency,
   useGroups,
   useMembers,
+  useRoundingUnit,
   useSettlements,
   useTotalAmount,
 } from '@/entities/warikan'
-import { CopyButton, formatResultText } from '@/features/share-result'
+import { formatResultText, ShareButton } from '@/features/share-result'
 import { formatAmount } from '@/shared/lib'
 
 export interface SettlementResultProps {
@@ -19,6 +20,7 @@ export function SettlementResult({ className }: SettlementResultProps) {
   const members = useMembers()
   const groups = useGroups()
   const currency = useCurrency()
+  const roundingUnit = useRoundingUnit()
   const { settlements, groupSettlements } = useSettlements()
   const totalAmount = useTotalAmount()
 
@@ -28,6 +30,7 @@ export function SettlementResult({ className }: SettlementResultProps) {
     members,
     currency,
     totalAmount,
+    roundingUnit,
   })
 
   if (members.length === 0) {
@@ -101,9 +104,7 @@ export function SettlementResult({ className }: SettlementResultProps) {
       )}
 
       {totalAmount > 0 && (
-        <CopyButton text={resultText} variant="secondary" className="w-full">
-          結果をコピー
-        </CopyButton>
+        <ShareButton text={resultText} variant="secondary" className="w-full" />
       )}
     </div>
   )

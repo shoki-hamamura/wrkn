@@ -1,6 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import { InstallBanner } from '@/features/pwa-install'
 import { MobileHeader, MobileSidebar, Sidebar } from '@/widgets/sidebar'
 
 interface AppLayoutProps {
@@ -20,6 +21,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       </div>
 
       <MobileSidebar />
+      <InstallBanner />
     </div>
   )
 }

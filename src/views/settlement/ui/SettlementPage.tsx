@@ -1,9 +1,30 @@
+'use client'
+
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useMemo } from 'react'
+import type { KeyboardShortcut } from '@/shared/lib'
+import { useKeyboardShortcuts } from '@/shared/lib'
 import { AppLogo, Button } from '@/shared/ui'
 import { SettlementResult } from '@/widgets/settlement-result'
 
 export function SettlementPage() {
+  const router = useRouter()
+
+  const shortcuts = useMemo<KeyboardShortcut[]>(
+    () => [
+      {
+        key: 'Escape',
+        action: () => router.push('/'),
+        description: 'ホームに戻る',
+      },
+    ],
+    [router],
+  )
+
+  useKeyboardShortcuts(shortcuts)
+
   return (
     <div className="mx-auto min-h-screen max-w-lg bg-background px-4 py-6">
       <header className="mb-6">

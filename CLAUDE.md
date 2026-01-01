@@ -49,8 +49,8 @@ src/
 
 ### Layer Dependency Rule
 
-```
-app → pages → widgets → features → entities → shared
+```text
+app → views → widgets → features → entities → shared
 ```
 
 Only import from lower layers. Upper-layer imports are **forbidden** and checked by Steiger.

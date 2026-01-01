@@ -1,7 +1,13 @@
 import type { Member } from '@/entities/member'
 import type { Settlement } from '@/entities/settlement'
 import { formatAmount } from '@/shared/lib'
-import type { CurrencyCode, GroupSettlement } from '@/shared/types'
+import type {
+  CurrencyCode,
+  GroupSettlement,
+  RoundingUnit,
+} from '@/shared/types'
+
+const APP_URL = 'https://wrkn-blond.vercel.app/'
 
 export interface FormatResultTextInput {
   settlements: Settlement[]
@@ -9,6 +15,7 @@ export interface FormatResultTextInput {
   members: Member[]
   currency: CurrencyCode
   totalAmount: number
+  roundingUnit: RoundingUnit
 }
 
 export function formatResultText({
@@ -17,6 +24,7 @@ export function formatResultText({
   members,
   currency,
   totalAmount,
+  roundingUnit,
 }: FormatResultTextInput): string {
   const lines: string[] = []
 
@@ -35,17 +43,23 @@ export function formatResultText({
   }
 
   if (settlements.length > 0) {
-    lines.push('💸 支払い')
+    lines.push('💸 送金')
     for (const settlement of settlements) {
       const from = members.find((m) => m.id === settlement.from)
       const to = members.find((m) => m.id === settlement.to)
       lines.push(
-        `・${from?.name ?? '不明'} → ${to?.name ?? '不明'}: ${formatAmount(settlement.amount, currency)}`,
+        `・${from?.name ?? '不明'}さん → ${to?.name ?? '不明'}さんへ ${formatAmount(settlement.amount, currency)}`,
       )
     }
   } else if (groupSettlements.length === 0) {
     lines.push('精算は不要です')
   }
+
+  lines.push('')
+  if (roundingUnit > 1) {
+    lines.push(`※${roundingUnit}円単位で切上げ`)
+  }
+  lines.push(APP_URL)
 
   return lines.join('\n')
 }
