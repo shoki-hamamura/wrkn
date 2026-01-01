@@ -1,74 +1,24 @@
 'use client'
 
-import { Plus } from 'lucide-react'
-import { type KeyboardEvent, useState } from 'react'
 import { useWarikanActions } from '@/entities/warikan'
-import { cn } from '@/shared/lib'
-import { Button, Input } from '@/shared/ui'
+import { AddItemInput } from '@/shared/ui'
 
 export interface AddGroupInputProps {
   className?: string
 }
 
 export function AddGroupInput({ className }: AddGroupInputProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [name, setName] = useState('')
   const { addGroup } = useWarikanActions()
 
-  const handleSubmit = () => {
-    if (name.trim()) {
-      addGroup(name.trim())
-      setName('')
-    }
-  }
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      handleSubmit()
-    } else if (e.key === 'Escape') {
-      setIsOpen(false)
-      setName('')
-    }
-  }
-
-  if (!isOpen) {
-    return (
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setIsOpen(true)}
-        className={cn('size-9 rounded-full p-0', className)}
-        aria-label="グループを追加"
-      >
-        <Plus className="size-4" aria-hidden="true" />
-      </Button>
-    )
-  }
-
   return (
-    <div className={cn('flex items-center gap-2', className)}>
-      <Input
-        value={name}
-        onChange={setName}
-        onKeyDown={handleKeyDown}
-        placeholder="グループ名"
-        className="h-9 w-32"
-        autoFocus
-      />
-      <Button size="sm" onClick={handleSubmit} disabled={!name.trim()}>
-        追加
-      </Button>
-      <Button
-        size="sm"
-        variant="ghost"
-        onClick={() => {
-          setIsOpen(false)
-          setName('')
-        }}
-      >
-        キャンセル
-      </Button>
-    </div>
+    <AddItemInput
+      onAdd={addGroup}
+      placeholder="グループ名"
+      ariaLabel="グループを追加"
+      addLabel="追加"
+      cancelLabel="キャンセル"
+      className={className}
+      buttonClassName="size-9 p-0"
+    />
   )
 }

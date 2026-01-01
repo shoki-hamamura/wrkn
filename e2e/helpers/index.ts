@@ -62,7 +62,7 @@ export async function addExpense(
   await page.getByRole('button', { name: '会計を追加' }).click()
 
   if (options.name) {
-    await page.getByLabel('名前').fill(options.name)
+    await page.getByPlaceholder('1次会').fill(options.name)
   }
 
   const amountStr = options.amount.toString()
