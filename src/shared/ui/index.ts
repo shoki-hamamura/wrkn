@@ -1,3 +1,5 @@
+export type { AddItemInputProps } from './AddItemInput'
+export { AddItemInput } from './AddItemInput'
 export type { AppLogoProps, AppLogoSize } from './AppLogo'
 export { AppLogo } from './AppLogo'
 export type { BadgeProps, BadgeVariant } from './Badge'
