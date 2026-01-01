@@ -20,7 +20,6 @@
   /* Secondary (Violet) */
   --secondary: #a78bfa;
   --secondary-hover: #8b5cf6;
-  --secondary-foreground: #ffffff;
 
   /* Accent (Cyan) */
   --accent: #22d3d1;
@@ -88,7 +87,6 @@
 
   --color-secondary: var(--secondary);
   --color-secondary-hover: var(--secondary-hover);
-  --color-secondary-foreground: var(--secondary-foreground);
 
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
