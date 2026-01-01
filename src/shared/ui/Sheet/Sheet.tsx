@@ -1,5 +1,6 @@
 'use client'
 
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import type { ComponentProps } from 'react'
 import { Drawer } from 'vaul'
 import { cn } from '@/shared/lib'
@@ -62,6 +63,9 @@ function SheetContent({
         )}
         {...props}
       >
+        <VisuallyHidden>
+          <Drawer.Description />
+        </VisuallyHidden>
         <div className="mx-auto mt-4 h-1.5 w-12 shrink-0 rounded-full bg-border" />
         <div className="flex-1 overflow-y-auto p-4">{children}</div>
       </Drawer.Content>
