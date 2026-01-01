@@ -23,7 +23,7 @@ export function AddMemberInput({ className }: AddMemberInputProps) {
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault()
       handleSubmit()
     } else if (e.key === 'Escape') {
