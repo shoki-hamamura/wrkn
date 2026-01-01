@@ -81,7 +81,7 @@ export function SettlementResult({ className }: SettlementResultProps) {
       {settlements.length > 0 ? (
         <>
           <h3 className="mb-3 text-sm font-medium text-foreground-muted">
-            支払い
+            送金
           </h3>
           <div className="mb-6 space-y-3">
             {settlements.map((settlement, index) => (

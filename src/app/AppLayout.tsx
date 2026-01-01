@@ -9,12 +9,12 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   return (
-    <div className="flex min-h-screen">
-      <div className="hidden lg:flex lg:w-[280px] lg:shrink-0">
+    <div className="min-h-screen lg:pl-[280px]">
+      <div className="hidden lg:block">
         <Sidebar />
       </div>
 
-      <div className="flex-1">
+      <div>
         <MobileHeader className="lg:hidden" />
         {children}
       </div>
