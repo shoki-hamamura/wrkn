@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import { CreateSessionButton } from '@/features/session-management'
 import { AppLogo } from '@/shared/ui'

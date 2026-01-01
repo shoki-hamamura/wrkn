@@ -1,5 +1,3 @@
-'use client'
-
 import { ArrowRight } from 'lucide-react'
 import { formatAmount } from '@/shared/lib'
 import type { CurrencyCode, Member, Settlement } from '@/shared/types'

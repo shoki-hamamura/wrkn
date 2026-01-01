@@ -36,6 +36,12 @@
     "vaul": "^1",
     "zustand": "^5"
   },
+  "browserslist": [
+    "chrome 111",
+    "edge 111",
+    "firefox 111",
+    "safari 16.4"
+  ],
   "devDependencies": {
     "@biomejs/biome": "^2.3.10",
     "@chromatic-com/storybook": "^4.1.3",
